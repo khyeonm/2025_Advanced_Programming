@@ -27,10 +27,10 @@ _"(실현하고 싶은 가치?) ex) 이론에서 실전까지, 함께 성장하�
 
 ## 🧑 팀 소개 (Team)
 
-| 역할          | 이름 |  기술 스택 배지                                                                 | 주요 관심 분야                          |
+| 역할          | 이름 |  기술 스택 배지                                                                 | 주요 관심 분야? 맡은 역할?                          |
 |---------------|------|-----------------------------------------------------------------------|----------------------------------------|
 | **Member** | [서호영]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) | |
-| **Member** | [김예준](https://www.linkedin.com/in/ye-jun-kim-yerdy) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) | 생성형 AI |
+| **Member** | [김예준](https://www.linkedin.com/in/ye-jun-kim-yerdy) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) |  |
 | **Member** | [이해인]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) |  |
 | **Member** | [김현민]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) |  |
 
@@ -42,10 +42,15 @@ gantt
     title 2025 고급 프로그래밍 프로젝트 여정
 
     section 핵심 마일스톤
-    프로젝트 진행 :a1, 2025-04-16, 53d
+    프로젝트 진행 :a1, 2025-04-24, 55d
     
-    section 부가 활동
-    기술 세미나(PseudoCon) 준비 :2025-05-10, 7d
+    section 새부 활동
+    주제 설정 및 역할 분담 :2025-04-24, 6d
+    API 데이터 전처리 및 구현 기능 설정 :2025-04-24, 20d
+    웹 페이지 화면 구성 및 데이터 베이스 설계 :2025-05-07, 21d
+    백엔드 - 프론트엔드 연결 :2025-05-21, 14d
+    추가 기능 재검토 및 마무리 :2025-05-28, 21d
+
 ```
 
 ## 💻 주차별 활동 (Activity History)
