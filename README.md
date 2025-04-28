@@ -17,17 +17,17 @@
 > Welcome to  Generative AI in Drug Design Lab repository! ( 팀 소개 )We aim to organize recent papers related with generative AI in drug discovery, We are planning to offer tools and frameworks for generating molecules, benchmark, and visualized analysis. Join us in advancing the field of generative AI through open collaboration and innovation!
 
 ## 🌟 프로젝트 목표 (Project Vision)
-_"(실현하고 싶은 가치?) ex) 이론에서 실전까지, 함께 성장하는 AI 실험실"_
-- 아래 예시 참고
-- Drug Design에 활용되는 Generative Model 에 대한 스터디 및 프로젝트
-- 개인 성장과 집단 지혜의 시너지 창출
-- 오픈소스 정신을 바탕으로 한 지식 공유 문화
-- 실패를 성공의 디딤돌로 만드는 실험적 접근
+_"폭넓은 가능성 속에서, 각자의 길을 찾고 준비할 수 있도록 함께합니다."_
+- 의생명융합공학부 학생 맞춤형 직무/산업 정보 제공
+- 다양한 취업 사이트의 채용공고 통합 제공
+- 직무별 공통 필수 역량 도출 및 시각화
+- 실제 합격자 자소서, 스펙 사례 기반 현실적 준비 방법 제시
+- 관심 직무 기반 맞춤형 정보 탐색 기능 제공
 
 
 ## 🧑 팀 소개 (Team)
 
-| 역할          | 이름 |  기술 스택 배지                                                                 | 주요 관심 분야? 맡은 역할?                          |
+| 역할          | 이름 |  기술 스택 배지                         | 주요 관심 분야? 맡은 역할?                          |
 |---------------|------|-----------------------------------------------------------------------|----------------------------------------|
 | **Member** | [서호영]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) | |
 | **Member** | [김예준](https://www.linkedin.com/in/ye-jun-kim-yerdy) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) |  |
