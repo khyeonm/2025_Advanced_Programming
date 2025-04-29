@@ -1,6 +1,6 @@
 # 2025_Advanced_Programming
 
-<h1 align="center"> 팀 이름 or 프로젝트 이름 </h1>
+<h1 align="center"> Spec-trackr </h1>
 
 <div align="center">
 <a href="https://github.com/khyeonm/2025_Advanced_Programming/stargazers"><img src="https://img.shields.io/github/stars/khyeonm/2025_Advanced_Programming" alt="Stars Badge"/></a>
