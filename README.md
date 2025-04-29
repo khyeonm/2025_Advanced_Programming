@@ -38,10 +38,10 @@ _"폭넓은 가능성 속에서, 각자의 길을 찾고 준비할 수 있도록
 
 | 역할          | 이름 |  기술 스택 배지                         | 주요 관심 분야? 맡은 역할?                          |
 |---------------|------|-----------------------------------------------------------------------|----------------------------------------|
-| **Member** | [서호영]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) | |
-| **Member** | [김예준](https://www.linkedin.com/in/ye-jun-kim-yerdy) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) |  |
-| **Member** | [이해인]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) |  |
-| **Member** | [김현민]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) |  |
+| **백엔드** | [서호영]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) | |
+| **프론트엔드** | [김예준](https://www.linkedin.com/in/ye-jun-kim-yerdy) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) |  |
+| **백엔드** | [이해인]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) |  |
+| **프론트엔드** | [김현민]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) |  |
 
 
 
@@ -66,7 +66,7 @@ gantt
 
 | 날짜 | 내용 | 발표자 | 발표자료 |
 | -------- | -------- | ---- | --- | 
-| 2025/04/30 | - | - |  - |
+| 2025/04/30 | 프로젝트 소개 | 서호영 | [25/04/30](https://pusanackr-my.sharepoint.com/:p:/g/personal/haein1012_pusan_ac_kr/EaLw18OsvHxErTauA2G-gqMBP9srYinm-pxDmx3I7uNQBQ?e=bshgOO)|
 | 2025/05/07 | - | - |  - |
 | 2025/05/14 | - | - |  - |
 | 2025/05/21 | - | - |  - |
