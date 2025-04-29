@@ -1,6 +1,6 @@
 # 2025_Advanced_Programming
 
-<h1 align="center"> Spec-trackr </h1>
+<h1 align="center"> Spec-Trackr </h1>
 
 <div align="center">
 <a href="https://github.com/khyeonm/2025_Advanced_Programming/stargazers"><img src="https://img.shields.io/github/stars/khyeonm/2025_Advanced_Programming" alt="Stars Badge"/></a>
@@ -14,7 +14,10 @@
 <!-- sheilds: https://shields.io/ -->
 <!-- hits badge: https://hits.seeyoufarm.com/ -->
 
-> Welcome to  Generative AI in Drug Design Lab repository! ( 팀 소개 )We aim to organize recent papers related with generative AI in drug discovery, We are planning to offer tools and frameworks for generating molecules, benchmark, and visualized analysis. Join us in advancing the field of generative AI through open collaboration and innovation!
+우리는 의생명융합공학부 학생들의 진로 탐색을 돕기 위해 모였습니다.
+다양한 분야로의 진출 가능성을 연결하고, 채용 정보와 직무별 필수 역량을 한눈에 볼 수 있도록 지원하는 플랫폼을 만들고 있습니다.
+직무 정보 통합, 스펙 사례 제공, 맞춤형 탐색 기능을 통해 학생들이 자신만의 길을 준비할 수 있도록 함께합니다.
+열린 협업과 혁신을 통해 모두의 가능성을 넓혀갑니다!
 
 
 ## 🌟 프로젝트 배경 (Project Background)
