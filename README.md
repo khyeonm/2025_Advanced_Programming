@@ -16,6 +16,15 @@
 
 > Welcome to  Generative AI in Drug Design Lab repository! ( 팀 소개 )We aim to organize recent papers related with generative AI in drug discovery, We are planning to offer tools and frameworks for generating molecules, benchmark, and visualized analysis. Join us in advancing the field of generative AI through open collaboration and innovation!
 
+
+## 🌟 프로젝트 배경 (Project Background)
+_"의생명융합공학부 학생들의 진로 고민, 우리가 돕겠습니다."
+- 의생명융합공학부 학생들은 다양한 분야를 학습했지만, 진로 선택과 준비에 막막함을 느끼고 있음
+- 데이터 분석, 인공지능, 의료공학 등 폭넓은 진출 가능성에도 불구하고, 구체적인 직무/산업 정보 탐색에 어려움 존재
+- 채용 정보가 링크드인, 원티드, 사람인 등 여러 사이트에 흩어져 있어 비교·분석이 번거로움
+- 각 직무별로 필수적으로 요구되는 공통 역량이 존재하지만, 이를 체계적으로 파악할 수 있는 지원 체계 부족
+- 의생명융합공학부 고학년 학생들이 직접 겪은 진로 정보 부족 문제를 해결하고자 플랫폼 기획
+
 ## 🌟 프로젝트 목표 (Project Vision)
 _"폭넓은 가능성 속에서, 각자의 길을 찾고 준비할 수 있도록 함께합니다."_
 - 의생명융합공학부 학생 맞춤형 직무/산업 정보 제공
