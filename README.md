@@ -39,12 +39,12 @@ _"폭넓은 가능성 속에서, 각자의 길을 찾고 준비할 수 있도록
 
 ## 🧑 팀 소개 (Team)
 
-| 역할          | 이름 |  기술 스택 배지                         | 주요 관심 분야? 맡은 역할?                          |
-|---------------|------|-----------------------------------------------------------------------|----------------------------------------|
-| **백엔드** | [서호영]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) | |
-| **프론트엔드** | [김예준](https://www.linkedin.com/in/ye-jun-kim-yerdy) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) |  |
-| **백엔드** | [이해인]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) |  |
-| **프론트엔드** | [김현민]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) |  |
+| 역할          | 이름 |  기술 스택 배지                         |                           
+|---------------|------|---------------------------------------------------------------------------------------------------------------|
+| **백엔드** | [서호영]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)  |
+| **프론트엔드** | [김예준](https://www.linkedin.com/in/ye-jun-kim-yerdy) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)  |
+| **백엔드** | [이해인]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)   |
+| **프론트엔드** | [김현민]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)   |
 
 
 
