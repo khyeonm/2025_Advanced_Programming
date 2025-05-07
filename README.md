@@ -69,8 +69,8 @@ gantt
 
 | 날짜 | 내용 | 발표자 | 발표자료 |
 | -------- | -------- | ---- | --- | 
-| 2025/04/30 | 프로젝트 소개 | 서호영 | [25/04/30](https://pusanackr-my.sharepoint.com/:p:/g/personal/haein1012_pusan_ac_kr/EaLw18OsvHxErTauA2G-gqMBq3G-2vll0e5kqRQjvWnDfw?e=9UbxMo)|
-| 2025/05/07 | 2주차  | 김현민 |  [25/05/07]() |
+| 2025/04/30 | 프로젝트 소개 | 서호영 | [25/04/30](https://pusanackr-my.sharepoint.com/:p:/g/personal/haein1012_pusan_ac_kr/EaLw18OsvHxErTauA2G-gqMBW8-u26Zwrk3SYRkAFCfdXQ?e=Tsu63M)|
+| 2025/05/07 | 2주차  | 김현민 |  [25/05/07](https://pusanackr-my.sharepoint.com/:p:/g/personal/haein1012_pusan_ac_kr/Ea4hJRmxTi5DgY5dMcaGs3QBbcgjHheu53vweCHI4rydRQ) |
 | 2025/05/14 | - | - |  - |
 | 2025/05/21 | - | - |  - |
 | 2025/05/28 | - |  - | - |
