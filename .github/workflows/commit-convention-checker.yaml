@@ -14,6 +14,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install GitHub CLI
+        run: sudo apt-get install gh -y
+
       - name: Get PR commits
         id: get_commits
         run: |
@@ -34,9 +37,10 @@ jobs:
 
       - name: Comment and Close PR if invalid
         if: steps.validate.outputs.invalid == '1'
-        uses: peter-evans/close-pull-request@v3
-        with:
-          comment: |
-            🚫 This PR is being closed because one or more commit messages do not follow the project's commit convention.
+        run: |
+          gh pr close "$PR_NUMBER" --comment "🚫 This PR is being closed because one or more commit messages do not follow the project's commit convention.
 
-            Please follow our convention (e.g., `feat(component): add login feature`) as described in the [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention) and open a new PR. Thank you!
+          Please follow our convention (e.g., \`feat(component): add login feature\`) as described in the [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention) and open a new PR. Thank you!"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
