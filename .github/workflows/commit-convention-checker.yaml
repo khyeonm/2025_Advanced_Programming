@@ -43,7 +43,7 @@ jobs:
 
           Please revise your commit messages to match the convention (e.g., \`feat(component): add login feature\`) as described in the [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention).
           
-          Once updated, push your changes to update this PR. Thank you!""
+          Once updated, push your changes to update this PR. Thank you!"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
