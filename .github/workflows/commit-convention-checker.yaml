@@ -3,6 +3,9 @@ name: PR Commit Message Linter
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  
+permissions:
+  pull-requests: write
 
 jobs:
   commit-lint:
