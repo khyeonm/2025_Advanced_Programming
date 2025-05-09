@@ -1,0 +1,63 @@
+name: PR Commit Message Linter
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  
+permissions:
+  pull-requests: write
+
+jobs:
+  commit-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install GitHub CLI
+        run: sudo apt-get install gh -y
+
+      - name: Get PR commits
+        id: get_commits
+        run: |
+          git log origin/${{ github.base_ref }}..HEAD --pretty=format:"%s" > commits.txt
+      
+      - name: Validate commit messages
+        id: validate
+        run: |
+          invalid=0
+          while IFS= read -r line; do
+            echo "Checking commit: $line"
+            if ! [[ "$line" =~ ^(Feat|Fix|Docs|Style|Refactor|Test|Chore|Ci|Perf|Build)(\(.+\))?:\ .+ ]] && ! [[ "$line" =~ ^Merge.* ]]; then
+              echo "::error::❌ Invalid commit message: $line"
+              invalid=1
+            fi
+          done < commits.txt
+          echo "invalid=$invalid" >> $GITHUB_OUTPUT
+    
+      - name: Comment on PR if invalid
+        if: steps.validate.outputs.invalid == '1'
+        run: |
+          gh pr comment "$PR_NUMBER" --body "🚫 This PR contains one or more commit messages that do not follow the project’s commit convention.
+
+          Please revise all commit messages in this PR, not just the latest one, to match the convention (e.g., Feat(actions): add something cool) as described in the Wiki.
+
+          Once updated, push your changes to update this PR. Thank you!
+
+          ⸻
+
+          🚫 이 PR에는 저희 프로젝트의 커밋 메시지 규칙을 따르지 않는 커밋이 포함되어 있습니다.
+
+          가장 최근 커밋뿐만 아니라, PR 안에 포함된 모든 커밋 메시지를 규칙에 맞게 수정해 주세요.
+          예: Feat(actions): add something cool
+
+          자세한 내용은 Wiki에서 확인하실 수 있습니다.
+
+          수정 후 변경 사항을 다시 푸시하시면 PR이 자동으로 업데이트됩니다. 감사합니다!"
+          
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
