@@ -35,6 +35,7 @@ jobs:
           if ! [[ "$line" =~ ^(Feat|Fix|Docs|Style|Refactor|Test|Chore|Ci|Perf|Build)(\(.+\))?:\ .+ ]] && ! [[ "$line" =~ ^Merge.* ]]; then
             echo "::error::❌ Invalid commit message: $line"
             echo "invalid=1" >> $GITHUB_OUTPUT 
+
           else
             echo "invalid=0" >> $GITHUB_OUTPUT
           fi
