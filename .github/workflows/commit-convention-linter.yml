@@ -3,7 +3,7 @@ name: PR Commit Convention Linter
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-  
+
 permissions:
   pull-requests: write
 
@@ -12,54 +12,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout PR code  # PR의 브랜치 코드를 로컬로 가져옴
-        uses: actions/checkout@v3  # 해당 PR의 커밋 상태를 복제함
-        with:
-          fetch-depth: 1 # PR의 최신 커밋만 가져옴
+      - name: Minimal Git clone without actions/checkout
+        run: |
+          git init
+          git remote add origin https://github.com/${{ github.repository }}.git
+          git fetch origin ${{ github.event.pull_request.head.ref }} --depth=1
+          git checkout FETCH_HEAD
 
       - name: Install GitHub CLI
         run: |
           sudo apt-get update
           sudo apt-get install -y gh
-          
-      - name: Get PR commits
-        id: get_commits
-        run: | # commit.txt file에 PR의 최신 커밋 메시지를 저장함
-          git log -1 --pretty=format:"%s" > commit.txt 
+
+      - name: Get latest commit message
+        id: get_commit
+        run: |
+          git log -1 --pretty=format:"%s" > commit.txt
 
       - name: Validate commit message
         id: validate
-        run: | # 잘못된 commit convention일 경우 
-          line=$(cat commit.txt) # line = commit.txt
+        run: |
+          line=$(cat commit.txt)
           echo "Checking commit: $line"
           if ! [[ "$line" =~ ^(Feat|Fix|Docs|Style|Refactor|Test|Chore|Ci|Perf|Build)(\(.+\))?:\ .+ ]] && ! [[ "$line" =~ ^Merge.* ]]; then
             echo "::error::❌ Invalid commit message: $line"
-            echo "invalid=1" >> $GITHUB_OUTPUT 
-
+            echo "invalid=1" >> $GITHUB_OUTPUT
           else
             echo "invalid=0" >> $GITHUB_OUTPUT
           fi
-    
+
       - name: Comment on PR if invalid
         if: steps.validate.outputs.invalid == '1'
         run: |
-          gh pr comment "$PR_NUMBER" --body "🚫 This PR contains commit message that does not follow the project’s commit convention.
+          gh pr comment "$PR_NUMBER" --body "🚫 One or more commit messages in this PR **do not follow the commit convention.**
 
-          Please revise commit message in this PR to match the convention (e.g., Feat(actions): add something cool) as described in the [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention).
+          Please revise them to match the format: \`Feat(component): message\`
 
-          Once updated, push your changes to update this PR. Thank you!
+          📘 See our [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention) for details.
 
-          ⸻
-
-          🚫 이 PR에는 저희 프로젝트의 커밋 메시지 규칙을 따르지 않는 커밋이 포함되어 있습니다.
-
-          PR 커밋 메시지를 규칙에 맞게 수정해 주세요.
-          예: Feat(actions): add something cool
-
-          자세한 내용은 [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention)에서 확인하실 수 있습니다.
-
-          수정 후 변경 사항을 다시 푸시하시면 PR이 자동으로 업데이트됩니다. 감사합니다!"
-          
+          Thank you!"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
