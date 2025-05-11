@@ -88,7 +88,7 @@ jobs:
           git fetch origin ${{ github.event.pull_request.head.ref }} --depth=1
           git checkout FETCH_HEAD
 
-      - name: Install GitHub CLI and Python deps
+      - name: Install GitHub CLI and Python
         run: |
           sudo apt-get update
           sudo apt-get install -y gh
@@ -103,15 +103,13 @@ jobs:
         run: |
           echo "invalid=0" >> $GITHUB_OUTPUT
           echo "suggestion=" >> $GITHUB_OUTPUT
-          
-          python3 <<EOF
+
+          python3 - <<'EOF'
 import os
 import re
 
 with open("commit.txt") as f:
     line = f.read().strip()
-
-print(f"🔍 Checking commit: {line}")
 
 def is_totally_invalid(msg):
     return ':' not in msg or len(msg.split(':')[0]) < 3
@@ -133,34 +131,34 @@ def suggest_fix(msg):
 
     return f"{type_part}({scope_part}): {message}" if scope_part else f"{type_part}: {message}"
 
-# main logic
 if not line.startswith("Merge"):
+    output = ""
     if is_totally_invalid(line):
-        with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
-            fh.write("invalid=1\n")
+        output += "invalid=1\n"
     else:
         fixed = suggest_fix(line)
         if fixed and fixed != line:
-            with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
-                fh.write("invalid=1\n")
-                fh.write(f"suggestion={fixed}\n")
-        elif fixed == line:
-            pass  # valid
-        else:
-            with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
-                fh.write("invalid=1\n")
+            output += "invalid=1\n"
+            output += f"suggestion={fixed}\n"
+        elif fixed != line:
+            output += "invalid=1\n"
+
+    with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+        fh.write(output)
 EOF
 
       - name: Comment on PR if invalid
-        if: steps.validate.outputs.invalid == '1'
+        if: ${{ steps.validate.outputs.invalid == '1' }}
         run: |
-          if [[ -n "${{ steps.validate.outputs.suggestion }}" ]]; then
+          suggestion="${{ steps.validate.outputs.suggestion }}"
+
+          if [ -n "$suggestion" ]; then
             gh pr comment "$PR_NUMBER" --body "🚫 One or more commit messages in this PR **do not follow the commit convention.**
 
 💡 **Suggested fix**:
 
 \`\`\`suggestion
-${{ steps.validate.outputs.suggestion }}
+$suggestion
 \`\`\`
 
 📘 See our [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention) for details."
@@ -174,3 +172,4 @@ Please revise them to match the format: \`Feat(actions): add something cool\`
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+
