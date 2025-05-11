@@ -127,6 +127,7 @@ jobs:
 
             📘 See our [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention) for details."
                       fi
+
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
