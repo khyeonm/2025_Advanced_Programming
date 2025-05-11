@@ -182,8 +182,3 @@ def search_by_spec(spec: SpecInput, db: Session = Depends(get_db)):
         "recommended_certifications": ["SQLD", "ADsP"],
         "similar_applicants": similar
     }
-
-
-
-
-
