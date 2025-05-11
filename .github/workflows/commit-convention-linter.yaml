@@ -18,21 +18,23 @@ jobs:
           fetch-depth: 1 # PR의 최신 커밋만 가져옴
 
       - name: Install GitHub CLI
-        uses: cli/cli-actions@v2
-
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gh
+          
       - name: Get PR commits
         id: get_commits
-        run: |
-          git log -1 --pretty=format:"%s" > commit.txt
+        run: | # commit.txt file에 PR의 최신 커밋 메시지를 저장함
+          git log -1 --pretty=format:"%s" > commit.txt 
 
       - name: Validate commit message
         id: validate
-        run: |
-          line=$(cat commit.txt)
+        run: | # 잘못된 commit convention일 경우 
+          line=$(cat commit.txt) # line = commit.txt
           echo "Checking commit: $line"
           if ! [[ "$line" =~ ^(Feat|Fix|Docs|Style|Refactor|Test|Chore|Ci|Perf|Build)(\(.+\))?:\ .+ ]] && ! [[ "$line" =~ ^Merge.* ]]; then
             echo "::error::❌ Invalid commit message: $line"
-            echo "invalid=1" >> $GITHUB_OUTPUT
+            echo "invalid=1" >> $GITHUB_OUTPUT 
           else
             echo "invalid=0" >> $GITHUB_OUTPUT
           fi
