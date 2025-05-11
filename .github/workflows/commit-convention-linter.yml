@@ -113,20 +113,20 @@ jobs:
           if [ -n "$suggestion" ]; then
             gh pr comment "$PR_NUMBER" --body "🚫 One or more commit messages in this PR **do not follow the commit convention.**
 
-💡 **Suggested fix**:
+            💡 **Suggested fix**:
 
-\`\`\`suggestion
-$suggestion
-\`\`\`
+            \`\`\`suggestion
+            $suggestion
+            \`\`\`
 
-📘 See our [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention) for details."
-          else
-            gh pr comment "$PR_NUMBER" --body "🚫 One or more commit messages in this PR **do not follow the commit convention.**
+            📘 See our [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention) for details."
+                      else
+                        gh pr comment "$PR_NUMBER" --body "🚫 One or more commit messages in this PR **do not follow the commit convention.**
 
-Please revise them to match the format: \`Feat(actions): add something cool\`
+            Please revise them to match the format: \`Feat(actions): add something cool\`
 
-📘 See our [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention) for details."
-          fi
+            📘 See our [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention) for details."
+                      fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
