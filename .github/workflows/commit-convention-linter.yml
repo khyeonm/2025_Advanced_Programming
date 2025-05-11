@@ -88,7 +88,9 @@ jobs:
           git fetch origin ${{ github.event.pull_request.head.ref }} --depth=1
           git checkout FETCH_HEAD
 
+
       - name: Install GitHub CLI and Python
+
         run: |
           sudo apt-get update
           sudo apt-get install -y gh
@@ -104,7 +106,9 @@ jobs:
           echo "invalid=0" >> $GITHUB_OUTPUT
           echo "suggestion=" >> $GITHUB_OUTPUT
 
+
           python3 - <<'EOF'
+
 import os
 import re
 
@@ -131,6 +135,7 @@ def suggest_fix(msg):
 
     return f"{type_part}({scope_part}): {message}" if scope_part else f"{type_part}: {message}"
 
+
 if not line.startswith("Merge"):
     output = ""
     if is_totally_invalid(line):
@@ -145,11 +150,13 @@ if not line.startswith("Merge"):
 
     with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
         fh.write(output)
+
 EOF
 
       - name: Comment on PR if invalid
         if: ${{ steps.validate.outputs.invalid == '1' }}
         run: |
+
           suggestion="${{ steps.validate.outputs.suggestion }}"
 
           if [ -n "$suggestion" ]; then
@@ -168,6 +175,7 @@ $suggestion
 Please revise them to match the format: \`Feat(actions): add something cool\`
 
 📘 See our [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention) for details."
+
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
