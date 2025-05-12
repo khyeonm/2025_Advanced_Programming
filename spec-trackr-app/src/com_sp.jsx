@@ -3,27 +3,35 @@ import "./com_sp.css";
 
 const jobCategories = ["생산/제조", "연구개발/설계", "IT/인터넷"];
 
-const ComSp = () => {
+const ComSp = ({ onSpecTabClick }) => {
   const [selectedJobCategory, setSelectedJobCategory] = useState("");
   const [selectedCompany, setSelectedCompany] = useState("");
   const [selectedPosition, setSelectedPosition] = useState("");
   const [activeTab, setActiveTab] = useState("채용 공고");
-
+  
   return (
     <div className="container">
       <h1 className="title">SpecTrackr</h1>
     
       <div className="button-group">
       <button
-        className={`btn ${activeTab === "회사 기준 검색" ? "selected" : ""}`}
+        // className={`btn ${activeTab === "회사 기준 검색" ? "selected" : ""}`}
+        className="btn selected"
         onClick={() => setActiveTab("회사 기준 검색")}>
         회사 기준 검색
     </button>
     <button
+          className={`btn ${activeTab === "스펙 기준 검색" ? "selected" : ""}`}
+          onClick={() => { setActiveTab("스펙 기준 검색");
+            if (onSpecTabClick) onSpecTabClick();
+          }}>
+          스펙 기준 검색
+    </button>
+    {/* <button
         className={`btn ${activeTab === "스펙 기준 검색" ? "selected" : ""}`}
         onClick={() => setActiveTab("스펙 기준 검색")}>
         스펙 기준 검색
-    </button>
+    </button> */}
       </div>
 
       <div className="outer-box">
