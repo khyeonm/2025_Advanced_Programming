@@ -1,0 +1,133 @@
+# name: PR Commit Convention Linter
+
+# on:
+#   pull_request:
+#     types: [opened, synchronize, reopened]
+
+# permissions:
+#   pull-requests: write
+
+# jobs:
+#   commit-lint:
+#     runs-on: ubuntu-latest
+
+#     steps:
+
+#       - name: Minimal Git clone without actions/checkout
+#         run: |
+#           git init
+#           git remote add origin https://github.com/${{ github.repository }}.git
+#           git fetch origin ${{ github.event.pull_request.head.ref }} --depth=1
+#           git checkout FETCH_HEAD
+
+
+#       - name: Install GitHub CLI
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install -y gh
+
+#       - name: Get latest commit message
+#         id: get_commit
+#         run: |
+#           git log -1 --pretty=format:"%s" > commit.txt
+
+#       - name: Validate commit message
+#         id: validate
+#         run: |
+#           line=$(cat commit.txt)
+#           echo "Checking commit: $line"
+
+#            # 메시지 길이 확인 (50자 초과면 경고)
+#           if [[ ${#line} -gt 72 ]]; then
+#             echo "::warning::⚠️ Commit message is longer than 72 characters."
+#           fi
+
+#           # 정규식: 타입(scope): 메시지 (소문자 시작, 마침표 금지)
+#           pattern='^(Feat|Fix|Docs|Style|Refactor|Test|Chore|Ci|Perf|Build)(\([a-zA-Z0-9_-]+\))?: [a-z][^\.]{0,69}$'
+
+#           if ! [[ "$line" =~ $pattern ]] && ! [[ "$line" =~ ^Merge.* ]]; then
+#             echo "::error::❌ Invalid commit message: $line"
+#             echo "invalid=1" >> $GITHUB_OUTPUT
+#           else
+#             echo "invalid=0" >> $GITHUB_OUTPUT
+#           fi
+
+#       - name: Comment on PR if invalid
+#         if: steps.validate.outputs.invalid == '1'
+#         run: |
+#           gh pr comment "$PR_NUMBER" --body "🚫 One or more commit messages in this PR **do not follow the commit convention.**
+
+#           Please revise them to match the format: \`Feat(actions): add something cool\`
+
+#           📘 See our [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention) for details.
+
+#           Thank you!"
+
+#         env:
+#           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           PR_NUMBER: ${{ github.event.pull_request.number }}
+
+name: PR Commit Convention Linter
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  commit-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Minimal Git clone without actions/checkout
+        run: |
+          git init
+          git remote add origin https://github.com/${{ github.repository }}.git
+          git fetch origin ${{ github.event.pull_request.head.ref }} --depth=1
+          git checkout FETCH_HEAD
+
+      - name: Install GitHub CLI and Python
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gh python3
+
+      - name: Get latest commit message
+        id: get_commit
+        run: |
+          git log -1 --pretty=format:"%s" > commit.txt
+
+      - name: Validate commit message and suggest fix
+        id: validate
+        run: |
+          echo "invalid=0" >> $GITHUB_OUTPUT
+          echo "suggestion=" >> $GITHUB_OUTPUT
+          python3 scripts/validate_commit.py
+
+      - name: Comment on PR if invalid
+        if: ${{ steps.validate.outputs.invalid == '1' }}
+        run: |
+          suggestion="${{ steps.validate.outputs.suggestion }}"
+
+          if [ -n "$suggestion" ]; then
+            gh pr comment "$PR_NUMBER" --body "🚫 One or more commit messages in this PR **do not follow the commit convention.**
+
+            💡 **Suggested fix**:
+
+            \`\`\`suggestion
+            $suggestion
+            \`\`\`
+
+            📘 See our [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention) for details."
+                      else
+                        gh pr comment "$PR_NUMBER" --body "🚫 One or more commit messages in this PR **do not follow the commit convention.**
+
+            Please revise them to match the format: \`Feat(actions): add something cool\`
+
+            📘 See our [Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention) for details."
+                      fi
+
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
