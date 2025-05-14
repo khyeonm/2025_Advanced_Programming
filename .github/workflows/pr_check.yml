@@ -1,0 +1,46 @@
+name: PR Commit Message Validation
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  commit-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # 커밋 로그를 모두 가져오기 위해 전체 fetch
+
+      - name: Get PR commits
+        id: get_commits
+        run: |
+          git log origin/${{ github.base_ref }}..HEAD --pretty=format:"%s" > commits.txt
+
+      - name: Validate commit messages
+        id: validate
+        run: |
+          invalid=0
+          while IFS= read -r line; do
+            echo "Checking commit: $line"
+            if ! [[ "$line" =~ ^(feat|fix|chore|docs|style|refactor|test|perf)(\(.+\))?:\ .+ ]]; then
+              echo "::error::❌ Invalid commit message: $line"
+              invalid=1
+            fi
+          done < commits.txt
+          echo "invalid=$invalid" >> $GITHUB_OUTPUT
+
+      - name: Comment and Close PR if invalid
+        if: steps.validate.outputs.invalid == '1'
+        uses: peter-evans/close-pull-request@v3
+        with:
+          comment: |
+            This PR is being closed because the commit messages do not follow the project's commit convention.
+
+            Please update your commits to match the convention and feel free to open a new PR.
+
+            For details, please refer to the [commit convention section in our Wiki](https://github.com/khyeonm/2025_Advanced_Programming/wiki/Git-Commit-Convention)
+
+            Thank you for your contribution!
