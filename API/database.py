@@ -3,6 +3,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # Railway의 DATABASE_URL 환경변수 사용
 DATABASE_URL = os.environ["DATABASE_URL"]
 

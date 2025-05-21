@@ -1,10 +1,20 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine
-from models import RecruitQualification
+from model import RecruitQualification
 import schemas
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Spectrackr API", description="채용정보를 위한 FastAPI", version="1.0")
+
+# Cross-Origin Resource Sharing 설정
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3001"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # 의존성: 요청마다 DB 세션 생성 → 종료
 def get_db():
@@ -13,6 +23,11 @@ def get_db():
         yield db
     finally:
         db.close()
+
+# API 서버 실행 확인
+@app.get("/")
+def root():
+    return {"message": "Spectrackr API is running."}
 
 # 1. /get-company-name-and-detail-job
 @app.post("/get-company-name-and-detail-job", response_model=list[schemas.CompanyAndDetailJob])
