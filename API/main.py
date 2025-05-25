@@ -10,7 +10,7 @@ app = FastAPI(title="Spectrackr API", description="채용정보를 위한 FastAP
 # Cross-Origin Resource Sharing 설정
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3001"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -32,9 +32,19 @@ def root():
 # 1. /get-company-name-and-detail-job
 @app.post("/get-company-name-and-detail-job", response_model=list[schemas.CompanyAndDetailJob])
 def get_company_name_and_detail_job(req: schemas.JobCategoryRequest, db: Session = Depends(get_db)):
-    results = db.query(RecruitQualification.company_name, RecruitQualification.detail_job) \
-        .filter(RecruitQualification.job_category == req.job_category).all()
+    query = db.query(RecruitQualification.company_name, RecruitQualification.detail_job)
+
+    if req.job_category:  # job_category가 빈 문자열이 아니면 필터
+        query = query.filter(RecruitQualification.job_category == req.job_category)
+
+    results = query.all()
     return results
+
+# @app.post("/get-company-name-and-detail-job", response_model=list[schemas.CompanyAndDetailJob])
+# def get_company_name_and_detail_job(req: schemas.JobCategoryRequest, db: Session = Depends(get_db)):
+#     results = db.query(RecruitQualification.company_name, RecruitQualification.detail_job) \
+#         .filter(RecruitQualification.job_category == req.job_category).all()
+#     return results
 
 # 2. /get-detail-job-by-company-name
 @app.post("/get-detail-job-by-company-name", response_model=list[schemas.DetailJob])
