@@ -22,8 +22,8 @@ const ComSp = ({ onSpecTabClick }) => {
       .then((res) => {
         const data = res.data;
         setRawOptions(data);
-        setCompanyOptions([...new Set(data.map(item => item.company_name))]);
-        setPositionOptions([...new Set(data.map(item => item.detail_job))]);
+        setCompanyOptions([...new Set(data.map(item => item.company_name))].sort((a, b) => a.localeCompare(b)));
+        setPositionOptions([...new Set(data.map(item => item.detail_job))].sort((a, b) => a.localeCompare(b)));
         setSelectedCompany("");
         setSelectedPosition("");
       })
@@ -35,10 +35,10 @@ const ComSp = ({ onSpecTabClick }) => {
   useEffect(() => {
     if (selectedCompany) {
       const filtered = rawOptions.filter(item => item.company_name === selectedCompany);
-      setPositionOptions([...new Set(filtered.map(item => item.detail_job))]);
+      setPositionOptions([...new Set(filtered.map(item => item.detail_job))].sort((a, b) => a.localeCompare(b)));
     } else if (selectedJobCategory) {
-      setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))]);
-      setPositionOptions([...new Set(rawOptions.map(item => item.detail_job))]);
+      setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))].sort((a, b) => a.localeCompare(b)));
+      setPositionOptions([...new Set(rawOptions.map(item => item.detail_job))].sort((a, b) => a.localeCompare(b)));
     }
   }, [selectedCompany]);
 
@@ -46,17 +46,17 @@ const ComSp = ({ onSpecTabClick }) => {
   useEffect(() => {
     if (selectedPosition) {
       const filtered = rawOptions.filter(item => item.detail_job === selectedPosition);
-      setCompanyOptions([...new Set(filtered.map(item => item.company_name))]);
+      setCompanyOptions([...new Set(filtered.map(item => item.company_name))].sort((a, b) => a.localeCompare(b)));
     } else if (selectedJobCategory) {
-      setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))]);
-      setPositionOptions([...new Set(rawOptions.map(item => item.detail_job))]);
+      setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))].sort((a, b) => a.localeCompare(b)));
+      setPositionOptions([...new Set(rawOptions.map(item => item.detail_job))].sort((a, b) => a.localeCompare(b)));
     }
   }, [selectedPosition]);
 
   // 회사 드롭다운 클릭 시 전체 목록으로 초기화
   const handleCompanyClick = () => {
     if (selectedJobCategory) {
-      setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))]);
+      setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))].sort((a, b) => a.localeCompare(b)));
     }
   };
 
@@ -64,7 +64,7 @@ const ComSp = ({ onSpecTabClick }) => {
   const handlePositionClick = () => {
     if (selectedCompany) {
       const filtered = rawOptions.filter(item => item.company_name === selectedCompany);
-      setPositionOptions([...new Set(filtered.map(item => item.detail_job))]);
+      setPositionOptions([...new Set(filtered.map(item => item.detail_job))].sort((a, b) => a.localeCompare(b)));
     }
   };
 
