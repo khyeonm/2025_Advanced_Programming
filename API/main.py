@@ -81,4 +81,29 @@ def get_job_posting(req: schemas.JobPostingRequest, db: Session = Depends(get_db
         RecruitQualification.company_name == req.company_name,
         RecruitQualification.detail_job == req.detail_job
     ).all()
-    return results
+    # return results
+
+    # 튜플 리스트를 dict 리스트로 변환
+    job_postings = []
+    for row in results:
+        (
+            company_type, detail_job, location, education_level, major,
+            experience_years, language_requirement, military_requirement,
+            overseas_available, etc_requirements, process
+        ) = row
+
+        job_postings.append({
+            "company_type": company_type,
+            "detail_job": detail_job,
+            "location": location,
+            "education_level": education_level,
+            "major": major,
+            "experience_years": str(experience_years) if experience_years is not None else None,
+            "language_requirement": language_requirement,
+            "military_requirement": military_requirement,
+            "overseas_available": overseas_available,
+            "etc_requirements": etc_requirements,
+            "process": process
+        })
+
+    return job_postings
