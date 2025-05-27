@@ -12,51 +12,110 @@ const ComSp = ({ onSpecTabClick }) => {
   const [positionOptions, setPositionOptions] = useState([]);
   const [rawOptions, setRawOptions] = useState([]); // 전체 데이터 저장
   const [activeTab, setActiveTab] = useState("채용 공고");
+  const [jobPostingResults, setJobPostingResults] = useState([]);
 
-  // 직업 카테고리 선택 시 전체 데이터 받아오기
+  useEffect(() => {
+    if (selectedJobCategory && selectedCompany && selectedPosition) {
+      axios.post("http://localhost:8000/get-job-posting", {
+        job_category: selectedJobCategory,
+        company_name: selectedCompany,
+        detail_job: selectedPosition,
+      })
+      .then((res) => {
+        console.log("API 응답 데이터:", res.data);
+        setJobPostingResults(res.data);
+      })
+      .catch((err) => {
+        console.error("채용공고 불러오기 오류:", err);
+        setJobPostingResults([]);
+      });
+    } else {
+      setJobPostingResults([]);
+    }
+  }, [selectedJobCategory, selectedCompany, selectedPosition]);
+  
+  // 직업 카테고리 선택 시 전체 데이터 받아오기 및 초기화
   useEffect(() => {
     if (selectedJobCategory) {
       axios.post("http://localhost:8000/get-company-name-and-detail-job", {
         job_category: selectedJobCategory,
       })
       .then((res) => {
-        const data = res.data;
-        setRawOptions(data);
-        setCompanyOptions([...new Set(data.map(item => item.company_name))].sort((a, b) => a.localeCompare(b)));
-        setPositionOptions([...new Set(data.map(item => item.detail_job))].sort((a, b) => a.localeCompare(b)));
+        const uniqueResults = Array.from(new Map(res.data.map(item => [JSON.stringify(item), item])).values());
+        setRawOptions(uniqueResults);
+        setCompanyOptions([...new Set(uniqueResults.map(item => item.company_name))].sort());
+        setPositionOptions([...new Set(uniqueResults.map(item => item.detail_job))].sort());
         setSelectedCompany("");
         setSelectedPosition("");
+        setJobPostingResults([]);
       })
       .catch((err) => console.error("API 오류:", err));
+    } else {
+      setRawOptions([]);
+      setCompanyOptions([]);
+      setPositionOptions([]);
+      setSelectedCompany("");
+      setSelectedPosition("");
+      setJobPostingResults([]);
     }
   }, [selectedJobCategory]);
 
-  // 회사 선택 시 직무 목록 업데이트
+  // 회사 선택 시 직무 옵션 필터링 및 초기화
   useEffect(() => {
     if (selectedCompany) {
-      const filtered = rawOptions.filter(item => item.company_name === selectedCompany);
-      setPositionOptions([...new Set(filtered.map(item => item.detail_job))].sort((a, b) => a.localeCompare(b)));
+      const filteredPositions = rawOptions.filter(item => item.company_name === selectedCompany);
+      setPositionOptions([...new Set(filteredPositions.map(item => item.detail_job))].sort());
+      setSelectedPosition("");
+      setJobPostingResults([]);
     } else if (selectedJobCategory) {
-      setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))].sort((a, b) => a.localeCompare(b)));
-      setPositionOptions([...new Set(rawOptions.map(item => item.detail_job))].sort((a, b) => a.localeCompare(b)));
+      setPositionOptions([...new Set(rawOptions.map(item => item.detail_job))].sort());
+      setSelectedPosition("");
+      setJobPostingResults([]);
     }
-  }, [selectedCompany]);
+  }, [selectedCompany, rawOptions, selectedJobCategory]);
 
-  // 직무 선택 시 회사 목록 업데이트
+  // 직무 선택 시 회사 옵션 필터링 및 초기화
   useEffect(() => {
     if (selectedPosition) {
-      const filtered = rawOptions.filter(item => item.detail_job === selectedPosition);
-      setCompanyOptions([...new Set(filtered.map(item => item.company_name))].sort((a, b) => a.localeCompare(b)));
+      const filteredCompanies = rawOptions.filter(item => item.detail_job === selectedPosition);
+      setCompanyOptions([...new Set(filteredCompanies.map(item => item.company_name))].sort());
+      setSelectedCompany(prevCompany => {
+        if (!filteredCompanies.some(item => item.company_name === prevCompany)) {
+          return "";
+        }
+        return prevCompany;
+      });
+      setJobPostingResults([]);
     } else if (selectedJobCategory) {
-      setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))].sort((a, b) => a.localeCompare(b)));
-      setPositionOptions([...new Set(rawOptions.map(item => item.detail_job))].sort((a, b) => a.localeCompare(b)));
+      setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))].sort());
+      setJobPostingResults([]);
     }
-  }, [selectedPosition]);
+  }, [selectedPosition, rawOptions, selectedJobCategory]);
+
+  // 세 가지 모두 선택되었을 때만 채용공고 API 호출
+  useEffect(() => {
+    if (selectedJobCategory && selectedCompany && selectedPosition) {
+      axios.post("http://localhost:8000/get-job-posting", {
+        job_category: selectedJobCategory,
+        company_name: selectedCompany,
+        detail_job: selectedPosition,
+      })
+      .then((res) => {
+        setJobPostingResults(res.data);
+      })
+      .catch((err) => {
+        console.error("채용공고 불러오기 오류:", err);
+        setJobPostingResults([]);
+      });
+    } else {
+      setJobPostingResults([]);
+    }
+  }, [selectedJobCategory, selectedCompany, selectedPosition]);
 
   // 회사 드롭다운 클릭 시 전체 목록으로 초기화
   const handleCompanyClick = () => {
     if (selectedJobCategory) {
-      setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))].sort((a, b) => a.localeCompare(b)));
+      setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))].sort());
     }
   };
 
@@ -64,7 +123,7 @@ const ComSp = ({ onSpecTabClick }) => {
   const handlePositionClick = () => {
     if (selectedCompany) {
       const filtered = rawOptions.filter(item => item.company_name === selectedCompany);
-      setPositionOptions([...new Set(filtered.map(item => item.detail_job))].sort((a, b) => a.localeCompare(b)));
+      setPositionOptions([...new Set(filtered.map(item => item.detail_job))].sort());
     }
   };
 
@@ -154,15 +213,31 @@ const ComSp = ({ onSpecTabClick }) => {
             </button>
           </div>
           <div className="result-box">
-            {activeTab === "채용 공고" && (
-              <>
-                <p><strong>직무:</strong> {selectedPosition || "선택되지 않음"}</p>
-                <p><strong>회사:</strong> {selectedCompany || "선택되지 않음"}</p>
-              </>
-            )}
-            {activeTab === "합격자 스펙" && (
-              <p>합격자 스펙 문구가 여기에 표시됩니다.</p>
-            )}
+          {activeTab === "채용 공고" && (
+            <>
+              <p><strong>회사:</strong> {selectedCompany || "선택되지 않음"}</p>
+              <p><strong>직무:</strong> {selectedPosition || "선택되지 않음"}</p>
+              {jobPostingResults.length > 0 ? (
+                <ul className="posting-list">
+                  {jobPostingResults.map((posting, index) => (
+                    <li key={index} className="posting-item">
+                      <p><strong>근무지:</strong> {posting.location}</p>
+                      <p><strong>학력:</strong> {posting.education_level}</p>
+                      <p><strong>전공:</strong> {posting.major}</p>
+                      <p><strong>경력:</strong> {posting.experience_years}년</p>
+                      <p><strong>어학:</strong> {posting.language_requirement}</p>
+                      <p><strong>병역:</strong> {posting.military_requirement}</p>
+                      <p><strong>해외 근무 가능:</strong> {posting.overseas_available}</p>
+                      <p><strong>기타:</strong> {posting.etc_requirements}</p>
+                      <p><strong>전형:</strong> {posting.process}</p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>해당 조건에 대한 채용 공고가 없습니다.</p>
+              )}
+            </>
+          )}
           </div>
         </div>
       </div>
