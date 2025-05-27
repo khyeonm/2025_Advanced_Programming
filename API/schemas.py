@@ -35,7 +35,7 @@ class JobPosting(BaseModel):
     location: Optional[str]
     education_level: Optional[str]
     major: Optional[str]
-    experience_level: Optional[str]
+    # experience_level: Optional[str]
     experience_years: Optional[str]
     language_requirement: Optional[str]
     military_requirement: Optional[str]
