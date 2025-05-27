@@ -12,7 +12,7 @@ class RecruitQualification(Base):
     location = Column(String)
     education_level = Column(String)
     major = Column(String)
-    experience_level = Column(String)
+    # experience_level = Column(String)
     experience_years = Column(String)
     language_requirement = Column(String)
     military_requirement = Column(String)

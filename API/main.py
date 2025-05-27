@@ -69,7 +69,7 @@ def get_job_posting(req: schemas.JobPostingRequest, db: Session = Depends(get_db
         RecruitQualification.location,
         RecruitQualification.education_level,
         RecruitQualification.major,
-        RecruitQualification.experience_level,
+        # RecruitQualification.experience_level,
         RecruitQualification.experience_years,
         RecruitQualification.language_requirement,
         RecruitQualification.military_requirement,
