@@ -13,26 +13,6 @@ const ComSp = ({ onSpecTabClick }) => {
   const [rawOptions, setRawOptions] = useState([]); // 전체 데이터 저장
   const [activeTab, setActiveTab] = useState("채용 공고");
   const [jobPostingResults, setJobPostingResults] = useState([]);
-
-  useEffect(() => {
-    if (selectedJobCategory && selectedCompany && selectedPosition) {
-      axios.post("http://localhost:8000/get-job-posting", {
-        job_category: selectedJobCategory,
-        company_name: selectedCompany,
-        detail_job: selectedPosition,
-      })
-      .then((res) => {
-        console.log("API 응답 데이터:", res.data);
-        setJobPostingResults(res.data);
-      })
-      .catch((err) => {
-        console.error("채용공고 불러오기 오류:", err);
-        setJobPostingResults([]);
-      });
-    } else {
-      setJobPostingResults([]);
-    }
-  }, [selectedJobCategory, selectedCompany, selectedPosition]);
   
   // 직업 카테고리 선택 시 전체 데이터 받아오기 및 초기화
   useEffect(() => {
@@ -101,7 +81,10 @@ const ComSp = ({ onSpecTabClick }) => {
         detail_job: selectedPosition,
       })
       .then((res) => {
-        setJobPostingResults(res.data);
+        const uniqueResults = Array.from(
+        new Map(res.data.map(item => [JSON.stringify(item), item])).values()
+      );
+      setJobPostingResults(uniqueResults);
       })
       .catch((err) => {
         console.error("채용공고 불러오기 오류:", err);
