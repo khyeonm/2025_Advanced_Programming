@@ -1,10 +1,20 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine
-from models import RecruitQualification, Applicant
+from model import RecruitQualification, Applicant
 import schemas
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Spectrackr API", description="채용정보를 위한 FastAPI", version="1.0")
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # 의존성: 요청마다 DB 세션 생성 → 종료
 def get_db():
@@ -109,15 +119,28 @@ def get_detail_jobs_by_company(req: schemas.CompanyOnlyRequest, db: Session = De
 def root():
     return {"message": "Spectrackr API is live!"}
 
+
+from sqlalchemy import text  # 추가
+
 @app.on_event("startup")
 def test_db():
     try:
         db = SessionLocal()
-        db.execute("SELECT 1")
+        db.execute(text("SELECT 1"))  # 수정된 부분
         print("✅ DB 연결 성공")
         db.close()
     except Exception as e:
         print(f"❌ DB 연결 실패: {e}")
+
+# @app.on_event("startup")
+# def test_db():
+#     try:
+#         db = SessionLocal()
+#         db.execute("SELECT 1")
+#         print("✅ DB 연결 성공")
+#         db.close()
+#     except Exception as e:
+#         print(f"❌ DB 연결 실패: {e}")
 
 if __name__ == "__main__":
     import uvicorn
