@@ -188,12 +188,6 @@ const ComSp = ({ onSpecTabClick }) => {
             >
               채용 공고
             </button>
-            <button
-              className={`tab-btn ${activeTab === "합격자 스펙" ? "tab-active" : "tab-inactive"}`}
-              onClick={() => setActiveTab("합격자 스펙")}
-            >
-              합격자 스펙
-            </button>
           </div>
           <div className="result-box">
           {activeTab === "채용 공고" && (

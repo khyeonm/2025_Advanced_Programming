@@ -2,7 +2,7 @@
   "name": "spec-trackr-app-2",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://khyeonm.github.io/2025_Advanced_Programming",
+  "homepage": ".",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
