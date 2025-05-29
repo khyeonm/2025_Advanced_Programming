@@ -31,14 +31,57 @@ class JobPostingRequest(BaseModel):
 
 class JobPosting(BaseModel):
     company_type: Optional[str]
-    detail_job: Optional[str]
+    main_job: Optional[str]
     location: Optional[str]
     education_level: Optional[str]
     major: Optional[str]
-    # experience_level: Optional[str]
-    experience_years: Optional[str]
+    experience_years: Optional[int]
     language_requirement: Optional[str]
     military_requirement: Optional[str]
     overseas_available: Optional[str]
     etc_requirements: Optional[str]
     process: Optional[str]
+
+# 5. /get-applicants (입력: job_category, company_name, detail_job → 출력: 전체 정보)
+# 요청용 스키마
+class ApplicantSearchByCompanyDetailJobRequest(BaseModel):
+    company: str
+    detail_job: str
+
+# 응답용 스키마
+class ApplicantSchema(BaseModel):
+    id: int
+    company: str
+    detail_job: str
+    job_title: Optional[str]
+    apply_term: Optional[str]
+    university: Optional[str]
+    major: Optional[str]
+    gpa: Optional[float]
+    gpa_scale: Optional[float]
+    toeic: Optional[int]
+    opic: Optional[str]
+    toeic_speaking: Optional[str]
+    work_experience: Optional[str]
+    job_category: str
+
+    class Config:
+        orm_mode = True
+
+
+# 회사 이름만 받는 요청 스키마
+class CompanyOnlyRequest(BaseModel):
+    company: str
+
+# 직무 이름만 받는 요청 스키마
+class DetailJobOnlyRequest(BaseModel):
+    detail_job: str
+
+
+# 회사 이름만 반환하는 응답 스키마
+class CompanyList(BaseModel):
+    company: str
+
+# 직무 이름만 반환하는 응답 스키마
+class DetailJobList(BaseModel):
+    detail_job: str
