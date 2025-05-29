@@ -102,16 +102,37 @@ def get_applicants_by_company_detail_job(req: schemas.ApplicantSearchByCompanyDe
     return results
 
 # 6. /get-companies-by-detail-job
+# @app.post("/get-companiy-by-detail-job", response_model=list[schemas.CompanyList], tags=['스펙 기준 검색'])
+# def get_companies_by_detail_job(req: schemas.DetailJobOnlyRequest, db: Session = Depends(get_db)):
+#     results = db.query(Applicant.company).filter(Applicant.detail_job == req.detail_job).distinct().all()
+#     return [{"company": r[0]} for r in results]
+
 @app.post("/get-companiy-by-detail-job", response_model=list[schemas.CompanyList], tags=['스펙 기준 검색'])
 def get_companies_by_detail_job(req: schemas.DetailJobOnlyRequest, db: Session = Depends(get_db)):
-    results = db.query(Applicant.company).filter(Applicant.detail_job == req.detail_job).distinct().all()
+    query = db.query(Applicant.company)
+    # 빈 문자열이 아니라면 필터 적용
+    if req.detail_job:
+        query = query.filter(Applicant.detail_job == req.detail_job)
+    results = query.distinct().all()
     return [{"company": r[0]} for r in results]
 
+
 # 7. /get-detail-jobs-by-company
+# @app.post("/get-detail-job-by-company", response_model=list[schemas.DetailJobList], tags=['스펙 기준 검색'])
+# def get_detail_jobs_by_company(req: schemas.CompanyOnlyRequest, db: Session = Depends(get_db)):
+#     results = db.query(Applicant.detail_job).filter(Applicant.company == req.company).distinct().all()
+#     return [{"detail_job": r[0]} for r in results]
+
 @app.post("/get-detail-job-by-company", response_model=list[schemas.DetailJobList], tags=['스펙 기준 검색'])
 def get_detail_jobs_by_company(req: schemas.CompanyOnlyRequest, db: Session = Depends(get_db)):
-    results = db.query(Applicant.detail_job).filter(Applicant.company == req.company).distinct().all()
-    return [{"detail_job": r[0]} for r in results]
+    query = db.query(Applicant.detail_job)
+    if req.company is not None and req.company != "":
+        query = query.filter(Applicant.company == req.company)
+
+    results = query.distinct().all()
+    return [{"detail_job": r[0]} for r in results if r[0] is not None]
+
+
 
 
 
