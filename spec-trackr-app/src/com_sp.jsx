@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./com_sp.css";
+import "./total.css";
 
 const jobCategories = ["생산/제조", "연구개발/설계", "IT/인터넷"];
 

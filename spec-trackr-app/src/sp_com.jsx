@@ -460,7 +460,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./sp_com.css";
+import "./total.css";
 
 const SpCom = ({ onCompanyTabClick }) => {
   const [activeTab, setActiveTab] = useState("스펙 기준 검색");
@@ -662,8 +662,8 @@ const SpCom = ({ onCompanyTabClick }) => {
       };
 
   return (
-    <div className="container2">
-      <h1 className="title2">SpecTrackr</h1>
+    <div className="container">
+      <h1 className="title">SpecTrackr</h1>
 
       <div className="button-group">
         <button
@@ -683,12 +683,12 @@ const SpCom = ({ onCompanyTabClick }) => {
         </button>
       </div>
 
-      <div className="outer-box2">
-        <div className="select-row2">
-          <div className="select-col2">
-            <label className="select-label2">회사를 선택하세요</label>
+      <div className="outer-box">
+        <div className="select-row">
+          <div className="select-col">
+            <label className="select-label">회사를 선택하세요</label>
             <select
-              className="select2"
+              className="select"
               value={selectedCompany}
               onMouseDown={handleCompanyClick}
               onChange={handleCompanyChange}
@@ -701,10 +701,10 @@ const SpCom = ({ onCompanyTabClick }) => {
               ))}
             </select>
           </div>
-          <div className="select-col2">
-            <label className="select-label2">직무를 선택하세요</label>
+          <div className="select-col">
+            <label className="select-label">직무를 선택하세요</label>
             <select
-              className="select2"
+              className="select"
               value={selectedPosition}
               onMouseDown={handlePositionClick}
               onChange={handlePositionChange}
