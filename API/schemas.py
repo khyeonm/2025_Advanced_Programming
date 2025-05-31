@@ -35,12 +35,13 @@ class JobPosting(BaseModel):
     location: Optional[str]
     education_level: Optional[str]
     major: Optional[str]
-    experience_years: Optional[int]
+    experience: Optional[str]
     language_requirement: Optional[str]
     military_requirement: Optional[str]
     overseas_available: Optional[str]
     etc_requirements: Optional[str]
     process: Optional[str]
+    image: Optional[str]
 
 # 5. /get-applicants (입력: job_category, company_name, detail_job → 출력: 전체 정보)
 # 요청용 스키마

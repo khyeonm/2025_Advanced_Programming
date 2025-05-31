@@ -54,12 +54,13 @@ def get_job_posting(req: schemas.JobPostingRequest, db: Session = Depends(get_db
         RecruitQualification.location,
         RecruitQualification.education_level,
         RecruitQualification.major,
-        RecruitQualification.experience_years,
+        RecruitQualification.experience,
         RecruitQualification.language_requirement,
         RecruitQualification.military_requirement,
         RecruitQualification.overseas_available,
         RecruitQualification.etc_requirements,
-        RecruitQualification.process
+        RecruitQualification.process,
+        RecruitQualification.image
     ).filter(
         RecruitQualification.job_category == req.job_category,
         RecruitQualification.company_name == req.company_name,
@@ -72,18 +73,21 @@ def get_job_posting(req: schemas.JobPostingRequest, db: Session = Depends(get_db
         "location",
         "education_level",
         "major",
-        "experience_years",
+        "experience",
         "language_requirement",
         "military_requirement",
         "overseas_available",
         "etc_requirements",
-        "process"        
+        "process",
+        "image"        
     ]
 
     def sanitize(key, value):
-        if value is None:
-            return "" if key != "experience_years" else 0
-        return value
+        defaults = {
+            "experience": "0",
+            "image": "",  # ✅ 기본 이미지가 없으면 빈 문자열 반환
+        }
+        return value if value is not None else defaults.get(key, "")
     
     result_dicts = [
         dict(zip(keys, [sanitize(k, v) for k, v in zip(keys, row)]))
