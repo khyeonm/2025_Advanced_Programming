@@ -127,11 +127,50 @@
   background-color: #fff;
 }
 
+/* 채용정보 */
+
 .posting-item {
-  padding: 10px;
-  margin-bottom: 12px;
-  border-bottom: 1px solid #ddd;
+  display: grid;
+  grid-template-columns: auto;
+  gap: 10px;
+  padding: 12px;
+  border-bottom: 1px solid #ccc;
+  line-height: 1.6;
 }
+
+.posting-info {
+  border-radius: 0.5rem;
+  line-height: 2;
+  color: #333;
+  font-size: 1rem;
+  user-select: text;
+}
+
+/* 작은 화면에서 가독성 개선 */
+@media (max-width: 600px) {
+  .posting-info {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    max-width: 100%;
+  }
+}
+
+/* 채용정보에 이미지 제공 */
+
+.image-container {
+  width: 100%;  
+}
+
+.job-image {
+  width: 100%;
+  max-width: 700px;  /* 이미지 최대 가로 크기 제한 */
+  height: auto;
+  display: block;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+/* <<스펙 기준 검색 탭 관련>> css */
 
 .spec-input-section {
   margin-bottom: 1.5rem;
