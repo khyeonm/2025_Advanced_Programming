@@ -137,6 +137,15 @@ def get_detail_jobs_by_company(req: schemas.CompanyOnlyRequest, db: Session = De
     return [{"detail_job": r[0]} for r in results if r[0] is not None]
 
 
+# 8. /get-all-universities
+@app.get("/get-all-universities", response_model=list[str], tags=["스펙 기준 검색"])
+def get_all_universities(db: Session = Depends(get_db)):
+    results = db.query(Applicant.university) \
+                .filter(Applicant.university.isnot(None)) \
+                .filter(Applicant.university != "") \
+                .distinct().all()
+    return [r[0] for r in results]
+
 
 
 
