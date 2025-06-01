@@ -86,3 +86,11 @@ class CompanyList(BaseModel):
 # 직무 이름만 반환하는 응답 스키마
 class DetailJobList(BaseModel):
     detail_job: str
+
+# 예준쌤을 위한 스키마 > Thx to haein!
+class SchoolRequest(BaseModel):
+    university: str
+
+class CompanyAndJob(BaseModel):
+    company: str
+    detail_job: str

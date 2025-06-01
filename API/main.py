@@ -147,6 +147,14 @@ def get_all_universities(db: Session = Depends(get_db)):
     return [r[0] for r in results]
 
 
+@app.post("/get-applicants-by-school", response_model=list[schemas.CompanyAndJob], tags=["스펙 기준 검색"])
+def get_applicants_by_school(req: schemas.SchoolRequest, db: Session = Depends(get_db)):
+    results = db.query(Applicant.company, Applicant.detail_job) \
+        .filter(Applicant.university == req.university) \
+        .distinct().all()
+    return [{"company": r[0], "detail_job": r[1]} for r in results]
+
+
 
 
 @app.get("/")
