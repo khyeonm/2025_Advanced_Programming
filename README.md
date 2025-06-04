@@ -73,7 +73,7 @@ gantt
 | 2025/05/07 | 2주차  | 김현민 |  [25/05/07](https://pusanackr-my.sharepoint.com/:p:/g/personal/haein1012_pusan_ac_kr/Ea4hJRmxTi5DgY5dMcaGs3QBbcgjHheu53vweCHI4rydRQ) |
 | 2025/05/14 | - | - |  - |
 | 2025/05/21 | - | - | -  |
-| 2025/05/28 | 3-5주차 | 김예준 | [25/05/21](https://pusanackr-my.sharepoint.com/:p:/g/personal/haein1012_pusan_ac_kr/EeO-PUyPaddDrsQ9LwEOr8cBUkAVRRCymfRxqk8n6lNB0Q?e=IcFPFO) |
+| 2025/05/28 | 3-5주차 | 김예준 | [25/05/28](https://pusanackr-my.sharepoint.com/:p:/g/personal/haein1012_pusan_ac_kr/EeO-PUyPaddDrsQ9LwEOr8cBUkAVRRCymfRxqk8n6lNB0Q?e=IcFPFO) |
 | 2025/06/04 | 6주차 | 이해인 | [25/06/04](https://pusanackr-my.sharepoint.com/:p:/g/personal/haein1012_pusan_ac_kr/Ebd1e-u86-hMo0Rop_Lx58sBEUq8yqvExVrlr6g5aHqFhQ?e=wL39gb) |
 | 2025/06/11 |- |  - | -|
 
