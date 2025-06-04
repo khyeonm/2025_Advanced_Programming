@@ -45,14 +45,14 @@ const SpCom = ({ onCompanyTabClick }) => {
   // ✅ 회사/직무 목록 초기화
   useEffect(() => {
     axios
-      .post("http://localhost:8000/get-companiy-by-detail-job", { detail_job: "" })
+      .post("/get-companiy-by-detail-job", { detail_job: "" })
       .then(res => {
         const companies = res.data.map(item => item.company).filter(Boolean).sort();
         setRawCompanyOptions(companies);
         setCompanyOptions(companies);
       });
     axios
-      .post("http://localhost:8000/get-detail-job-by-company", { company: "" })
+      .post("/get-detail-job-by-company", { company: "" })
       .then(res => {
         const positions = res.data.map(item => item.detail_job).filter(Boolean).sort();
         setRawPositionOptions(positions);
@@ -64,7 +64,7 @@ const SpCom = ({ onCompanyTabClick }) => {
   useEffect(() => {
     if (selectedCompany) {
       axios
-        .post("http://localhost:8000/get-detail-job-by-company", { company: selectedCompany })
+        .post("/get-detail-job-by-company", { company: selectedCompany })
         .then(res => setPositionOptions(res.data.map(i => i.detail_job).filter(Boolean).sort()));
     } else {
       setPositionOptions([...rawPositionOptions]);
@@ -75,7 +75,7 @@ const SpCom = ({ onCompanyTabClick }) => {
   useEffect(() => {
     if (selectedPosition) {
       axios
-        .post("http://localhost:8000/get-companiy-by-detail-job", { detail_job: selectedPosition })
+        .post("/get-companiy-by-detail-job", { detail_job: selectedPosition })
         .then(res => setCompanyOptions(res.data.map(i => i.company).filter(Boolean).sort()));
     } else {
       setCompanyOptions([...rawCompanyOptions]);
@@ -86,7 +86,7 @@ const SpCom = ({ onCompanyTabClick }) => {
   useEffect(() => {
     if (selectedCompany && selectedPosition) {
       axios
-        .post("http://localhost:8000/get-applicants-by-company-detail-job", {
+        .post("/get-applicants-by-company-detail-job", {
           company: selectedCompany,
           detail_job: selectedPosition
         })
