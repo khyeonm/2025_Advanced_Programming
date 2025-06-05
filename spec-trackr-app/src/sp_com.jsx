@@ -34,7 +34,7 @@ const SpCom = ({ onCompanyTabClick }) => {
   // ✅ 학교 목록 불러오기
   useEffect(() => {
     axios
-      .get("/get-all-universities")
+      .get(`${process.env.REACT_APP_API_URL}/get-all-universities`)
       .then(res => setAllSchools((res.data || []).filter(Boolean).sort()))
       .catch(err => {
         console.error("대학교 목록 오류:", err);
@@ -45,14 +45,14 @@ const SpCom = ({ onCompanyTabClick }) => {
   // ✅ 회사/직무 목록 초기화
   useEffect(() => {
     axios
-      .post("/get-companiy-by-detail-job", { detail_job: "" })
+      .post(`${process.env.REACT_APP_API_URL}/get-companiy-by-detail-job`, { detail_job: "" })
       .then(res => {
         const companies = res.data.map(item => item.company).filter(Boolean).sort();
         setRawCompanyOptions(companies);
         setCompanyOptions(companies);
       });
     axios
-      .post("/get-detail-job-by-company", { company: "" })
+      .post(`${process.env.REACT_APP_API_URL}/get-detail-job-by-company`, { company: "" })
       .then(res => {
         const positions = res.data.map(item => item.detail_job).filter(Boolean).sort();
         setRawPositionOptions(positions);
@@ -64,7 +64,7 @@ const SpCom = ({ onCompanyTabClick }) => {
   useEffect(() => {
     if (selectedCompany) {
       axios
-        .post("/get-detail-job-by-company", { company: selectedCompany })
+        .post(`${process.env.REACT_APP_API_URL}/get-detail-job-by-company`, { company: selectedCompany })
         .then(res => setPositionOptions(res.data.map(i => i.detail_job).filter(Boolean).sort()));
     } else {
       setPositionOptions([...rawPositionOptions]);
@@ -75,7 +75,7 @@ const SpCom = ({ onCompanyTabClick }) => {
   useEffect(() => {
     if (selectedPosition) {
       axios
-        .post("/get-companiy-by-detail-job", { detail_job: selectedPosition })
+        .post(`${process.env.REACT_APP_API_URL}/get-companiy-by-detail-job`, { detail_job: selectedPosition })
         .then(res => setCompanyOptions(res.data.map(i => i.company).filter(Boolean).sort()));
     } else {
       setCompanyOptions([...rawCompanyOptions]);
@@ -86,7 +86,7 @@ const SpCom = ({ onCompanyTabClick }) => {
   useEffect(() => {
     if (selectedCompany && selectedPosition) {
       axios
-        .post("/get-applicants-by-company-detail-job", {
+        .post(`${process.env.REACT_APP_API_URL}/get-applicants-by-company-detail-job`, {
           company: selectedCompany,
           detail_job: selectedPosition
         })
@@ -107,7 +107,7 @@ const SpCom = ({ onCompanyTabClick }) => {
   useEffect(() => {
     if (mySpec.school) {
       axios
-        .post("/get-applicants-by-school", { university: mySpec.school })
+        .post(`${process.env.REACT_APP_API_URL}/get-applicants-by-school`, { university: mySpec.school })
         .then(res => {
           setRecommendedApplicants(res.data || []);
           setCarouselIndex(0);

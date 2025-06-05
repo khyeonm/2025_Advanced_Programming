@@ -17,7 +17,7 @@ const ComSp = ({ onSpecTabClick }) => {
   // 직업 카테고리 선택 시 전체 데이터 받아오기 및 초기화
   useEffect(() => {
     if (selectedJobCategory) {
-      axios.post("/get-company-name-and-detail-job", {
+      axios.post(`${process.env.REACT_APP_API_URL}/get-company-name-and-detail-job`, {
         job_category: selectedJobCategory,
       })
       .then((res) => {
@@ -75,13 +75,12 @@ const ComSp = ({ onSpecTabClick }) => {
   // 세 가지 모두 선택되었을 때만 채용공고 API 호출
   useEffect(() => {
     if (selectedJobCategory && selectedCompany && selectedPosition) {
-      axios.post("/get-job-posting", {
+      axios.post(`${process.env.REACT_APP_API_URL}/get-job-posting`, {
         job_category: selectedJobCategory,
         company_name: selectedCompany,
         detail_job: selectedPosition,
       })
       .then((res) => {
-        console.log("서버 응답:", res.data);  // 👈 추가
         const uniqueResults = Array.from(
           new Map(res.data.map(item => [JSON.stringify(item), item])).values()
         );
