@@ -1,13 +1,4 @@
 services:
-  backend:
-    build:
-      context: ./API
-      dockerfile: backend.dockerfile
-    container_name: fastapi_backend
-    ports:
-      - "8000:8000"
-    restart: unless-stopped
-
   frontend:
     build:
       context: ./spec-trackr-app
