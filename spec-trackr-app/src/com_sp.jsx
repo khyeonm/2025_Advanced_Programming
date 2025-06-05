@@ -225,7 +225,22 @@ const ComSp = ({ onSpecTabClick }) => {
                               <span><strong>근무지:</strong> {posting.location}</span><br />
                               <span><strong>학력:</strong> {posting.education_level}</span><br />
                               <span><strong>경력:</strong> {posting.experience}</span><br />
-                              <span><strong>요구사항:</strong> {posting.etc_requirements || "없음"}</span><br />
+                              {/* <span><strong>요구사항:</strong> {posting.etc_requirements || "없음"}</span><br /> */}
+                              <span>
+                                <strong>요구사항:</strong><br />
+                                {posting.etc_requirements
+                                  ? posting.etc_requirements
+                                      .split(/[•■ㅁㅇㆍ·*＞-]\s*/) // "•" 기호를 기준으로 분할하며 공백 제거
+                                      .filter(item => item.trim() !== "")
+                                      .map((item, index) => (
+                                        <React.Fragment key={index}>
+                                          • {item.trim()}
+                                          <br />
+                                        </React.Fragment>
+                                      ))
+                                  : "없음"}
+                              </span>
+
                               <span><strong>우대사항:</strong> {posting.preferred_qualification || "없음"}</span>
                             </div>
                           )}
