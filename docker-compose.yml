@@ -1,9 +1,12 @@
 services:
   frontend:
     build:
-      context: ./spec-trackr-app
-      dockerfile: frontend.dockerfile
-    container_name: react_frontend
+      context: ./spec-trackr-app  # Dockerfile이 위치한 경로
+      dockerfile: frontend.dockerfile  # 사용할 Dockerfile 이름
+
+    container_name: react_frontend  # 컨테이너 이름 지정
+
     ports:
-      - "3002:80"
-    restart: unless-stopped
+      - "3002:80"  # 로컬 머신의 3002 포트를 컨테이너의 80번 포트에 연결
+
+    restart: unless-stopped  # 컨테이너가 중지되었을 때 수동으로 중지하지 않은 경우 자동 재시작
