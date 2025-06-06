@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./total.css";
 
+// 직업 분류 목록
 const jobCategories = ["생산/제조", "연구개발/설계", "IT/인터넷"];
 
+// 상태 관리
 const ComSp = ({ onSpecTabClick }) => {
   const [selectedJobCategory, setSelectedJobCategory] = useState("");
   const [selectedCompany, setSelectedCompany] = useState("");
@@ -14,7 +16,7 @@ const ComSp = ({ onSpecTabClick }) => {
   const [activeTab, setActiveTab] = useState("채용 공고");
   const [jobPostingResults, setJobPostingResults] = useState([]);
   
-  // 직업 카테고리 선택 시 전체 데이터 받아오기 및 초기화
+  // 직업 카테고리 선택 시 회사, 직무 정보 가져오기
   useEffect(() => {
     if (selectedJobCategory) {
       axios.post(`${process.env.REACT_APP_API_URL}/get-company-name-and-detail-job`, {
@@ -40,7 +42,7 @@ const ComSp = ({ onSpecTabClick }) => {
     }
   }, [selectedJobCategory]);
 
-  // 회사 선택 시 직무 옵션 필터링 및 초기화
+  // 회사 선택 시 해당 회사의 직무만 필터링
   useEffect(() => {
     if (selectedCompany) {
       const filteredPositions = rawOptions.filter(item => item.company_name === selectedCompany);
@@ -54,7 +56,7 @@ const ComSp = ({ onSpecTabClick }) => {
     }
   }, [selectedCompany, rawOptions, selectedJobCategory]);
 
-  // 직무 선택 시 회사 옵션 필터링 및 초기화
+  // 직무 선택 시 해당 직무를 가진 회사만 필터링
   useEffect(() => {
     if (selectedPosition) {
       const filteredCompanies = rawOptions.filter(item => item.detail_job === selectedPosition);
@@ -72,7 +74,7 @@ const ComSp = ({ onSpecTabClick }) => {
     }
   }, [selectedPosition, rawOptions, selectedJobCategory]);
 
-  // 세 가지 모두 선택되었을 때만 채용공고 API 호출
+  // 세 가지 조건이 모두 선택되면 채용 공고 API 호출
   useEffect(() => {
     if (selectedJobCategory && selectedCompany && selectedPosition) {
       axios.post(`${process.env.REACT_APP_API_URL}/get-job-posting`, {
@@ -95,7 +97,7 @@ const ComSp = ({ onSpecTabClick }) => {
     }
   }, [selectedJobCategory, selectedCompany, selectedPosition]);
 
-  // 회사 드롭다운 클릭 시 전체 목록으로 초기화
+  // 회사 드롭다운 클릭 시 필터 초기화
   const handleCompanyClick = () => {
     if (selectedJobCategory) {
       setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))].sort());
@@ -114,6 +116,7 @@ const ComSp = ({ onSpecTabClick }) => {
     <div className="container">
       <h1 className="title">SpecTrackr</h1>
 
+      {/* 탭 버튼 */}
       <div className="button-group">
         <button
           className="btn selected"
@@ -133,8 +136,9 @@ const ComSp = ({ onSpecTabClick }) => {
       </div>
 
       <div className="outer-box">
+        {/* 직업 선택 */}
         <div className="section">
-          <label className="select-label">직업을 선택하세요</label>
+          <label className="select-label">직업 분류를 선택하세요</label>
           <div className="flex flex-wrap gap-2">
             {jobCategories.map((category) => (
               <button
@@ -148,6 +152,7 @@ const ComSp = ({ onSpecTabClick }) => {
           </div>
         </div>
 
+        {/* 회사 및 직무 선택 드롭다운 */}
         <div className="select-row">
           <div className="select-col">
             <label className="select-label">회사를 선택하세요</label>
@@ -179,6 +184,7 @@ const ComSp = ({ onSpecTabClick }) => {
           </div>
         </div>
 
+        {/* 검색 결과 영역*/}
         <div className="section">
           <label className="select-label">검색 결과</label>
           <div className="tab-group">
