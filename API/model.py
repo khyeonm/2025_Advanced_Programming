@@ -14,12 +14,14 @@ class RecruitQualification(Base):
     major = Column(String)
     main_job = Column(String)
     experience = Column(String)
+
     language_requirement = Column(String)
     military_requirement = Column(String)
     overseas_available = Column(String)
     etc_requirements = Column(String)
     process = Column(String)
     image = Column(String)
+
 
 
 class Applicant(Base):
