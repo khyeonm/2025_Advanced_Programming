@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database import SessionLocal
+from database import SessionLocal, engine
 from model import RecruitQualification, Applicant
 import schemas
 from fastapi.middleware.cors import CORSMiddleware
@@ -35,6 +35,7 @@ def safe_handler(func):
 # --- FastAPI ---
 app = FastAPI(title="Spectrackr API", description="채용정보를 위한 FastAPI", version="2.8.1")
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -50,6 +51,7 @@ def get_db():
     finally:
         db.close()
 
+
 @app.post("/get-company-name-and-detail-job", response_model=list[schemas.CompanyAndDetailJob], tags=['회사 기준 검색'])
 @safe_handler
 def get_company_name_and_detail_job(req: schemas.JobCategoryRequest, db: Session = Depends(get_db)):
@@ -59,20 +61,25 @@ def get_company_name_and_detail_job(req: schemas.JobCategoryRequest, db: Session
 
 @app.post("/get-detail-job-by-company-name", response_model=list[schemas.DetailJob], tags=['회사 기준 검색'])
 @safe_handler
+
 def get_detail_job_by_company_name(req: schemas.CompanyNameRequest, db: Session = Depends(get_db)):
     req = RequestFactory.create(schemas.CompanyNameRequest, req.dict())
     return db.query(RecruitQualification.detail_job)\
              .filter(RecruitQualification.company_name == req.company_name).all()
 
+
 @app.post("/get-company-name-by-detail-job", response_model=list[schemas.CompanyName], tags=['회사 기준 검색'])
 @safe_handler
+
 def get_company_name_by_detail_job(req: schemas.DetailJobRequest, db: Session = Depends(get_db)):
     req = RequestFactory.create(schemas.DetailJobRequest, req.dict())
     return db.query(RecruitQualification.company_name)\
              .filter(RecruitQualification.detail_job == req.detail_job).all()
 
+
 @app.post("/get-job-posting", response_model=list[schemas.JobPosting], tags=['회사 기준 검색'])
 @safe_handler
+
 def get_job_posting(req: schemas.JobPostingRequest, db: Session = Depends(get_db)):
     req = RequestFactory.create(schemas.JobPostingRequest, req.dict())
 
@@ -96,6 +103,7 @@ def get_job_posting(req: schemas.JobPostingRequest, db: Session = Depends(get_db
     ).distinct().all()
 
     keys = [
+
         "company_type", "main_job", "location", "education_level", "major", "experience",
         "language_requirement", "military_requirement", "overseas_available",
         "etc_requirements", "process", "image"
@@ -147,9 +155,11 @@ def get_applicants_by_school(req: schemas.SchoolRequest, db: Session = Depends(g
                 .distinct().all()
     return [{"company": r[0], "detail_job": r[1]} for r in results]
 
+
 @app.get("/")
 def root():
     return {"message": "Spectrackr API is live!"}
+
 
 @app.on_event("startup")
 def test_db():
@@ -160,6 +170,7 @@ def test_db():
         db.close()
     except Exception as e:
         print(f"DB 연결 실패: {e}")
+
 
 if __name__ == "__main__":
     import uvicorn

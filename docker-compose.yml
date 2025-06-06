@@ -1,0 +1,9 @@
+services:
+  frontend:
+    build:
+      context: ./spec-trackr-app
+      dockerfile: frontend.dockerfile
+    container_name: react_frontend
+    ports:
+      - "3002:80"
+    restart: unless-stopped

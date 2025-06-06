@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./sp_com.css";
+import "./total.css";
 
 const SpCom = ({ onCompanyTabClick }) => {
   const [activeTab, setActiveTab] = useState("스펙 기준 검색");
@@ -8,7 +8,14 @@ const SpCom = ({ onCompanyTabClick }) => {
   const [selectedPosition, setSelectedPosition] = useState("");
   const [companyOptions, setCompanyOptions] = useState([]);
   const [positionOptions, setPositionOptions] = useState([]);
-  const [rawOptions, setRawOptions] = useState([]);
+  const [rawCompanyOptions, setRawCompanyOptions] = useState([]);
+  const [rawPositionOptions, setRawPositionOptions] = useState([]);
+  const [allSchools, setAllSchools] = useState([]);
+
+  const [applicants, setApplicants] = useState([]);
+  const [currentApplicantIndex, setCurrentApplicantIndex] = useState(0);
+  const [recommendedApplicants, setRecommendedApplicants] = useState([]);
+  const [carouselIndex, setCarouselIndex] = useState(0); // ✅ carousel 상태 추가
 
   const initialSpec = {
     school: "",
@@ -20,67 +27,123 @@ const SpCom = ({ onCompanyTabClick }) => {
   };
   const [mySpec, setMySpec] = useState(initialSpec);
 
-  const acceptedSpec = {
-    school: "서울대학교",
-    grade: "3.0 / 4.5",
-    social: "없음",
-    language: "텝스 100점",
-    award: "다이브 해커톤 1등",
-    certificate: "없음"
-  };
-
   const handleInput = (key, value) => {
-    setMySpec((prev) => ({ ...prev, [key]: value }));
+    setMySpec(prev => ({ ...prev, [key]: value }));
   };
 
-  // 전체 회사 및 직무 목록 불러오기
+  // ✅ 학교 목록 불러오기
   useEffect(() => {
-    axios.post("http://localhost:8000/get-company-name-and-detail-job", {
-      job_category: ""
-    })
-    .then((res) => {
-      const data = res.data;
-      setRawOptions(data);
-      setCompanyOptions([...new Set(data.map(item => item.company_name))].sort());
-      setPositionOptions([...new Set(data.map(item => item.detail_job))].sort());
-    })
-    .catch((err) => console.error("API 오류:", err));
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/get-all-universities`)
+      .then(res => setAllSchools((res.data || []).filter(Boolean).sort()))
+      .catch(err => {
+        console.error("대학교 목록 오류:", err);
+        setAllSchools([]);
+      });
   }, []);
 
-  // 회사 선택 시 직무 목록 업데이트
+  // ✅ 회사/직무 목록 초기화
+  useEffect(() => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/get-companiy-by-detail-job`, { detail_job: "" })
+      .then(res => {
+        const companies = res.data.map(item => item.company).filter(Boolean).sort();
+        setRawCompanyOptions(companies);
+        setCompanyOptions(companies);
+      });
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/get-detail-job-by-company`, { company: "" })
+      .then(res => {
+        const positions = res.data.map(item => item.detail_job).filter(Boolean).sort();
+        setRawPositionOptions(positions);
+        setPositionOptions(positions);
+      });
+  }, []);
+
+  // ✅ 선택 회사에 따른 직무 필터
   useEffect(() => {
     if (selectedCompany) {
-      const filtered = rawOptions.filter(item => item.company_name === selectedCompany);
-      setPositionOptions([...new Set(filtered.map(item => item.detail_job))].sort());
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/get-detail-job-by-company`, { company: selectedCompany })
+        .then(res => setPositionOptions(res.data.map(i => i.detail_job).filter(Boolean).sort()));
     } else {
-      setPositionOptions([...new Set(rawOptions.map(item => item.detail_job))].sort());
+      setPositionOptions([...rawPositionOptions]);
     }
-  }, [selectedCompany, rawOptions]);
+  }, [selectedCompany, rawPositionOptions]);
 
-  // 직무 선택 시 회사 목록 업데이트
+  // ✅ 선택 직무에 따른 회사 필터
   useEffect(() => {
     if (selectedPosition) {
-      const filtered = rawOptions.filter(item => item.detail_job === selectedPosition);
-      setCompanyOptions([...new Set(filtered.map(item => item.company_name))].sort());
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/get-companiy-by-detail-job`, { detail_job: selectedPosition })
+        .then(res => setCompanyOptions(res.data.map(i => i.company).filter(Boolean).sort()));
     } else {
-      setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))].sort());
+      setCompanyOptions([...rawCompanyOptions]);
     }
-  }, [selectedPosition, rawOptions]);
+  }, [selectedPosition, rawCompanyOptions]);
 
-  const handleCompanyClick = () => {
-    setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))].sort());
-  };
-
-  const handlePositionClick = () => {
-    if (selectedCompany) {
-      const filtered = rawOptions.filter(item => item.company_name === selectedCompany);
-      setPositionOptions([...new Set(filtered.map(item => item.detail_job))].sort());
+  // ✅ 합격자 스펙 불러오기
+  useEffect(() => {
+    if (selectedCompany && selectedPosition) {
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/get-applicants-by-company-detail-job`, {
+          company: selectedCompany,
+          detail_job: selectedPosition
+        })
+        .then(res => {
+          setApplicants(res.data || []);
+          setCurrentApplicantIndex(0);
+        })
+        .catch(err => {
+          console.error("합격자 API 오류:", err);
+          setApplicants([]);
+        });
+    } else {
+      setApplicants([]);
     }
-  };
+  }, [selectedCompany, selectedPosition]);
+
+  // ✅ 추천 기업 불러오기
+  useEffect(() => {
+    if (mySpec.school) {
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/get-applicants-by-school`, { university: mySpec.school })
+        .then(res => {
+          setRecommendedApplicants(res.data || []);
+          setCarouselIndex(0);
+        })
+        .catch(err => {
+          console.error("추천 기업 API 오류:", err);
+          setRecommendedApplicants([]);
+        });
+    } else {
+      setRecommendedApplicants([]);
+    }
+  }, [mySpec.school]);
+
+  const currentApplicant = applicants[currentApplicantIndex];
+
+  const acceptedSpec = currentApplicant
+    ? {
+        school: currentApplicant.university ?? "",
+        grade: currentApplicant.gpa ?? "",
+        social: "",
+        language: currentApplicant.toeic ? `토익 ${currentApplicant.toeic}` : "",
+        award: "",
+        certificate: ""
+      }
+    : {
+        school: "서울대학교",
+        grade: "3.0 / 4.5",
+        social: "없음",
+        language: "텝스 100점",
+        award: "다이브 해커톤 1등",
+        certificate: "없음"
+      };
 
   return (
-    <div className="container2">
-      <h1 className="title2">SpecTrackr</h1>
+    <div className="container">
+      <h1 className="title">SpecTrackr</h1>
 
       <div className="button-group">
         <button
@@ -100,33 +163,35 @@ const SpCom = ({ onCompanyTabClick }) => {
         </button>
       </div>
 
-      <div className="outer-box2">
-        <div className="select-row2">
-          <div className="select-col2">
-            <label className="select-label2">회사를 선택하세요</label>
+      <div className="outer-box">
+        <div className="select-row">
+          <div className="select-col">
+            <label className="select-label">회사를 선택하세요</label>
             <select
-              className="select2"
+              className="select"
               value={selectedCompany}
-              onMouseDown={handleCompanyClick}
               onChange={(e) => setSelectedCompany(e.target.value)}
             >
               <option value="">회사를 선택하세요</option>
               {companyOptions.map((company, idx) => (
-                <option key={idx} value={company}>{company}</option>
+                <option key={idx} value={company}>
+                  {company}
+                </option>
               ))}
             </select>
           </div>
-          <div className="select-col2">
-            <label className="select-label2">직무를 선택하세요</label>
+          <div className="select-col">
+            <label className="select-label">직무를 선택하세요</label>
             <select
-              className="select2"
+              className="select"
               value={selectedPosition}
-              onClick={handlePositionClick}
               onChange={(e) => setSelectedPosition(e.target.value)}
             >
               <option value="">직무를 선택하세요</option>
               {positionOptions.map((pos, idx) => (
-                <option key={idx} value={pos}>{pos}</option>
+                <option key={idx} value={pos}>
+                  {pos}
+                </option>
               ))}
             </select>
           </div>
@@ -135,46 +200,133 @@ const SpCom = ({ onCompanyTabClick }) => {
         <div className="spec-input-section">
           <label className="spec-input-label">나의 스펙 입력</label>
           <div className="spec-input-box">
-            {Object.entries(initialSpec).map(([key]) => (
-              <div key={key} className="spec-btn">
-                {key}
-                <input
-                  className="spec-input"
-                  type="text"
-                  value={mySpec[key]}
-                  placeholder={key}
-                  onChange={(e) => handleInput(key, e.target.value)}
-                />
-              </div>
-            ))}
+            <div className="spec-btn">
+              school
+              <select
+                className="spec-input"
+                value={mySpec.school}
+                onChange={(e) => handleInput("school", e.target.value)}
+              >
+                <option value="">학교 선택</option>
+                {allSchools.map((school, idx) => (
+                  <option key={idx} value={school}>
+                    {school}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {Object.entries(initialSpec).map(([key]) =>
+              key === "school" ? null : (
+                <div key={key} className="spec-btn">
+                  {key}
+                  <input
+                    className="spec-input"
+                    type="text"
+                    value={mySpec[key]}
+                    placeholder={key}
+                    onChange={(e) => handleInput(key, e.target.value)}
+                  />
+                </div>
+              )
+            )}
           </div>
         </div>
+
+
 
         <div className="spec-compare-row">
-          <div className="spec-box">
-            <div className="spec-title">나의 스펙</div>
-            <div className="spec-content">
-              {Object.entries(mySpec).map(([key, value]) => (
-                <div key={key}>{key} : {value || "없음"}</div>
-              ))}
+          <div className="spec-column">
+            <div className="spec-title-outside">나의 스펙</div>
+            <div className="spec-box">
+              <div className="spec-content">
+                {Object.entries(mySpec).map(([key, value]) => (
+                  <div key={key}>{key} : {value || "없음"}</div>
+                ))}
+              </div>
             </div>
           </div>
-          <div className="spec-box">
-            <div className="spec-title">합격자 스펙</div>
-            <div className="spec-content">
-              {Object.entries(acceptedSpec).map(([key, value]) => (
-                <div key={key}>{key} : {value}</div>
-              ))}
+
+          <div className="spec-column">
+            <div className="spec-title-outside">합격자 스펙</div>
+            <div className="spec-box">
+              <div className="spec-content">
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <button
+                    className="carousel-arrow"
+                    onClick={() =>
+                      setCurrentApplicantIndex((prev) =>
+                        applicants.length === 0 ? 0 : (prev - 1 + applicants.length) % applicants.length
+                      )
+                    }
+                    disabled={applicants.length <= 1}
+                    style={{ marginRight: 8 }}
+                  >
+                    ◀
+                  </button>
+                  <div>
+                    {Object.entries(acceptedSpec).map(([key, value]) => (
+                      <div key={key}>
+                        {key} : {value || "없음"}
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    className="carousel-arrow"
+                    onClick={() =>
+                      setCurrentApplicantIndex((prev) =>
+                        applicants.length === 0 ? 0 : (prev + 1) % applicants.length
+                      )
+                    }
+                    disabled={applicants.length <= 1}
+                    style={{ marginLeft: 8 }}
+                  >
+                    ▶
+                  </button>
+                </div>
+                {applicants.length > 1 && (
+                  <div style={{ textAlign: "center", marginTop: 4, fontSize: 12 }}>
+                    {currentApplicantIndex + 1} / {applicants.length}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
+        {/* ✅ 추천 기업 영역 */}
         <div className="company-section">
-          <label className="company-label">기업</label>
+          <label className="company-label">추천 기업</label>
           <div className="company-carousel">
-            <button className="carousel-arrow">◀</button>
-            <div className="carousel-content"></div>
-            <button className="carousel-arrow">▶</button>
+            <button
+              className="carousel-arrow left"
+              onClick={() => setCarouselIndex(prev => Math.max(prev - 1, 0))}
+              disabled={carouselIndex === 0}
+            >
+              &#8592;
+            </button>
+
+            <div className="carousel-content">
+              {recommendedApplicants
+                .slice(carouselIndex * 4, carouselIndex * 4 + 4)
+                .map((rec, idx) => (
+                  <div key={idx} className="company-card">
+                    <div className="company-name">{rec.company}</div>
+                    <div className="position-name">{rec.detail_job}</div>
+                  </div>
+                ))}
+            </div>
+
+            <button
+              className="carousel-arrow right"
+              onClick={() =>
+                setCarouselIndex(prev =>
+                  (prev + 1) * 4 < recommendedApplicants.length ? prev + 1 : prev
+                )
+              }
+              disabled={(carouselIndex + 1) * 4 >= recommendedApplicants.length}
+            >
+              &#8594;
+            </button>
           </div>
         </div>
       </div>
