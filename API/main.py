@@ -106,11 +106,6 @@ def get_applicants_by_company_detail_job(req: schemas.ApplicantSearchByCompanyDe
     return results
 
 # 6. /get-companies-by-detail-job
-# @app.post("/get-companiy-by-detail-job", response_model=list[schemas.CompanyList], tags=['스펙 기준 검색'])
-# def get_companies_by_detail_job(req: schemas.DetailJobOnlyRequest, db: Session = Depends(get_db)):
-#     results = db.query(Applicant.company).filter(Applicant.detail_job == req.detail_job).distinct().all()
-#     return [{"company": r[0]} for r in results]
-
 @app.post("/get-companiy-by-detail-job", response_model=list[schemas.CompanyList], tags=['스펙 기준 검색'])
 def get_companies_by_detail_job(req: schemas.DetailJobOnlyRequest, db: Session = Depends(get_db)):
     query = db.query(Applicant.company)
@@ -122,11 +117,6 @@ def get_companies_by_detail_job(req: schemas.DetailJobOnlyRequest, db: Session =
 
 
 # 7. /get-detail-jobs-by-company
-# @app.post("/get-detail-job-by-company", response_model=list[schemas.DetailJobList], tags=['스펙 기준 검색'])
-# def get_detail_jobs_by_company(req: schemas.CompanyOnlyRequest, db: Session = Depends(get_db)):
-#     results = db.query(Applicant.detail_job).filter(Applicant.company == req.company).distinct().all()
-#     return [{"detail_job": r[0]} for r in results]
-
 @app.post("/get-detail-job-by-company", response_model=list[schemas.DetailJobList], tags=['스펙 기준 검색'])
 def get_detail_jobs_by_company(req: schemas.CompanyOnlyRequest, db: Session = Depends(get_db)):
     query = db.query(Applicant.detail_job)
