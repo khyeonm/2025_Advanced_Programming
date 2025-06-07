@@ -165,7 +165,7 @@ const SpCom = ({ onCompanyTabClick }) => {
             onCompanyTabClick && onCompanyTabClick();
           }}
         >
-          채용공고고 검색
+          채용공고 검색
         </button>
         <button
           className={`btn ${activeTab === "스펙 검색" ? "selected" : ""}`}
