@@ -1,9 +1,11 @@
 # Spectrackr API 사용자 가이드 
 
-![Python](https://img.shields.io/badge/python-3.9%2B-blue)
-![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688)
-![Swagger](https://img.shields.io/badge/Docs-Swagger-green)
-![Deploy](https://img.shields.io/badge/Deployed-Railway-purple)
+![Python](https://img.shields.io/badge/python-3.9%2B-blue?logo=python)
+![Uvicorn](https://img.shields.io/badge/Uvicorn-ASGI--Server-blue?logo=python)
+![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?logo=fastapi)
+![Swagger](https://img.shields.io/badge/Docs-Swagger-green?logo=swagger)
+![Railway](https://img.shields.io/badge/Deployed-Railway-purple?logo=railway)
+![PostgreSQL](https://img.shields.io/badge/DB-PostgreSQL-336791?logo=postgresql&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 
 ### Base URL:
