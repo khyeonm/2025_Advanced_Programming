@@ -1,7 +1,7 @@
 services:
   frontend:
     build:
-      context: ./spec-trackr-app  # Dockerfile이 위치한 경로
+      context: ./frontend/spec-trackr-app  # Dockerfile이 위치한 경로
       dockerfile: frontend.dockerfile  # 사용할 Dockerfile 이름
 
     container_name: react_frontend  # 컨테이너 이름 지정
