@@ -36,6 +36,31 @@ _"폭넓은 가능성 속에서, 각자의 길을 찾고 준비할 수 있도록
 - 실제 합격자 자소서, 스펙 사례 기반 현실적 준비 방법 제시
 - 관심 직무 기반 맞춤형 정보 탐색 기능 제공
 
+## 🧩 주요 기능 (Key Features)
+### 🖥️ 프론트엔드 기능
+[프론트엔드 README](./spec-trackr-app/README.md)
+
+### 🛠️ 백엔드 기능
+[백엔드 README](./API/README.md)
+
+## 🧰 기술 스택
+| 구분      | 기술                  |
+|-----------|-----------------------|
+| Backend   | Swagger, FastAPI      |
+| Frontend  | React, Tableau        |
+| DB        | PostgreSQL            |
+| DevOps    | GitHub, Docker        |
+
+## 🚀 사용자 가이드
+```bash
+# 2025_Advanced_Programming 디렉토리에서 아래 명령어 실행
+docker compose up
+# 브라우저에서 아래 URL 접속
+http://localhost:3002
+```
+### 💡 문제 해결
+브라우저에 접속 시 화면이 뜨지 않는 경우
+- VSCode의 Ports에 3002를 추가한 후 URL 재접속
 
 ## 🧑 팀 소개 (Team)
 
