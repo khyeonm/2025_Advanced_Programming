@@ -294,7 +294,7 @@ function HomePage() {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <Button
-                onClick={() => { window.location.href = "http://localhost:3000" }}
+                onClick={() => { window.location.href = "http://localhost:3001" }}
                 className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white shadow-lg"
               >
                 시작하기 <ChevronRight className="ml-2 h-4 w-4" />
@@ -359,7 +359,7 @@ function HomePage() {
                 </h3>
 
                 <Button
-                  onClick={() => { window.location.href = "http://localhost:3000" }}
+                  onClick={() => { window.location.href = "http://localhost:3001" }}
                   size="lg"
                   className="mt-8 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-lg text-white shadow-lg"
                 >
