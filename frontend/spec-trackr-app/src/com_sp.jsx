@@ -54,6 +54,7 @@ const ComSp = ({ onSpecTabClick }) => {
     </Form.Control>
   );
 
+  // 직업 카테고리 선택 시 관련 회사/직무 목록 가져오기
   useEffect(() => {
     if (selectedJobCategory) {
       axios
@@ -80,6 +81,7 @@ const ComSp = ({ onSpecTabClick }) => {
     }
   }, [selectedJobCategory]);
 
+  // 회사 선택 시 해당 회사에 맞는 직무만 필터링
   useEffect(() => {
     if (selectedCompany) {
       const filteredPositions = rawOptions.filter(item => item.company_name === selectedCompany);
@@ -93,6 +95,7 @@ const ComSp = ({ onSpecTabClick }) => {
     }
   }, [selectedCompany, rawOptions, selectedJobCategory]);
 
+   // 직무 선택 시 해당 직무를 포함한 회사만 필터링
   useEffect(() => {
     if (selectedPosition) {
       const filteredCompanies = rawOptions.filter(item => item.detail_job === selectedPosition);
@@ -110,6 +113,7 @@ const ComSp = ({ onSpecTabClick }) => {
     }
   }, [selectedPosition, rawOptions, selectedJobCategory]);
 
+  // 직업 카테고리 + 회사 + 직무 모두 선택 시 채용공고 불러오기
   useEffect(() => {
     if (selectedJobCategory && selectedCompany && selectedPosition) {
       axios
@@ -131,7 +135,6 @@ const ComSp = ({ onSpecTabClick }) => {
     }
   }, [selectedJobCategory, selectedCompany, selectedPosition]);
 
-  // --- 렌더링 ---
   return (
     <Container className="mb-5">
       <div style={{
@@ -145,7 +148,7 @@ const ComSp = ({ onSpecTabClick }) => {
         <Button
           variant="outline-dark"
           style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 500 }}
-          onClick={() => { window.location.href = "http://localhost:3001"; }}
+          onClick={() => { window.location.href = "http://localhost:3003"; }}
         >
           <FaArrowLeft style={{ fontSize: 18 }} />
           메인으로
@@ -159,7 +162,7 @@ const ComSp = ({ onSpecTabClick }) => {
         </div>
       </div>
 
-      {/* 버튼: 100% 가로, 반반, 붙어 있도록 */}
+      {/* 상단 탭 버튼 */}
       <Row className="mb-4" style={{ marginLeft: 0, marginRight: 0 }}>
         <Col xs={6} className="p-0">
           <Button
