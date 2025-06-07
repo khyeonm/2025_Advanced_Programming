@@ -1,5 +1,11 @@
 # Spectrackr API 사용자 가이드 
 
+![Python](https://img.shields.io/badge/python-3.9%2B-blue)
+![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688)
+![Swagger](https://img.shields.io/badge/Docs-Swagger-green)
+![Deploy](https://img.shields.io/badge/Deployed-Railway-purple)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen)
+
 ### Base URL:
 
 https://2025advancedprogramming-production.up.railway.app/docs
@@ -16,10 +22,13 @@ https://2025advancedprogramming-production.up.railway.app/docs
 - Method: POST
 - 설명: 드롭다운을 위해 직무 카테고리에 해당하는 회사명과 세부 직무 목록을 조회합니다.
 - Request Body:
+```json
   {
     "job_category": "IT/인터넷"
   }
+```
 - Response:
+```json
   [
     {
       "company_name": "KT",
@@ -31,15 +40,19 @@ https://2025advancedprogramming-production.up.railway.app/docs
     },
     ...
   ]
+```
 
 #### 2. `/get-detail-job-by-company-name`
 - Method: POST
 - 설명: 드롭다운을 위해 회사 이름에 해당하는 세부 직무 목록을 조회합니다.
 - Request Body:
+```json
   {
     "company_name": "KT"
   }
+```
 - Response:
+```json
   [
     {
       "detail_job": "서버·백엔드"
@@ -49,16 +62,19 @@ https://2025advancedprogramming-production.up.railway.app/docs
     },
     ...
   ]
-
+```
 
 #### 3. `/get-company-name-by-detail-job`
 - Method: POST
 - 설명: 드롭다운을 위해 세부 직무에 해당하는 회사명을 조회합니다.
 - Request Body:
+```json
   {
     "detail_job": "LLM"
   }
+```
 - Response:
+```json
   [
     {
       "company_name": "KT"
@@ -68,18 +84,21 @@ https://2025advancedprogramming-production.up.railway.app/docs
     },
     ...
   ]
-
+```
 
 #### 4. `/get-job-posting`
 - Method: POST
 - 설명: 회사, 직무, 카테고리에 해당하는 채용 상세 정보를 조회합니다.
 - Request Body:
+```json
   {
     "job_category": "IT/인터넷",
     "company_name": "KT",
     "detail_job": "서버·백엔드"
   }
+```
 - Response:
+```json
   [
     {
       "company_type": "",
@@ -96,17 +115,20 @@ https://2025advancedprogramming-production.up.railway.app/docs
       "image": "https://d2juy7qzamcf56.cloudfront.net/2025-05-26/d4a3fdd4-7136-4d64-b397-b37f2b62614f.png"
     }
   ]
-
+```
 ## 스펙 기준 검색
 #### 5. `/get-applicants-by-company-detail-job`
 - Method: POST
 - 설명: 회사와 세부 직무에 해당하는 합격자 목록을 조회합니다.
 - Request Body:
+```json
   {
     "company": "삼성증권",
     "detail_job": "IT 일반"
   }
+```
 - Response:
+```json
   [
     {
       "id": 3,
@@ -125,6 +147,7 @@ https://2025advancedprogramming-production.up.railway.app/docs
       "job_category": "IT/인터넷"
     }
   ]
+```
 
 ---
 
@@ -132,10 +155,13 @@ https://2025advancedprogramming-production.up.railway.app/docs
 - Method: POST
 - 설명: 드롭다운을 위한 세부 직무로 구분한 회사 목록을 조회합니다.
 - Request Body:
+```json
   {
     "detail_job": "IT 일반"
   }
+```
 - Response:
+```json
   [
     {
       "company": "KB부동산신탁"
@@ -145,42 +171,52 @@ https://2025advancedprogramming-production.up.railway.app/docs
     },
     ...
   ]
+```
 
 ---
 #### 7. `/get-detail-job-by-company`
 - Method: POST
 - 설명: 특정 회사에 지원한 직무 목록 조회
 - Request Body:
+```json
   {
     "company": "네이버"
   }
+```
 - Response:
+```json
   [
     {
       "detail_job": "기술연구소/센터"
     }
   ]
+```
 
 ---
 #### 8. `/get-all-universities`
 - Method: GET
 - 설명: 드롭다운을 위해 모든 지원자의 대학교 목록을 반환합니다.
 - Response:
+```json
   [
     "지방거주 사립대",
     "영남대학교",
     ...
   ]
+```
 
 
 #### 9. `/get-applicants-by-school`
 - Method: POST
 - 설명: 특정 대학교 출신 지원자들이 지원한 회사 및 직무를 조회합니다.
 - Request Body:
+```json
   {
     "university": "부산대학교"
   }
+```
 - Response:
+```json
   [
     {
       "company": "기아",
@@ -192,6 +228,7 @@ https://2025advancedprogramming-production.up.railway.app/docs
     },
     ...
   ]
+```
 
 
 ## default
@@ -199,9 +236,11 @@ https://2025advancedprogramming-production.up.railway.app/docs
 - Method: GET
 - 설명: 서버 상태 확인용 엔드포인트입니다.
 - Response:
+```json
   {
     "message": "Spectrackr API is live!"
   }
+```
 
 
 오류 코드 안내:
