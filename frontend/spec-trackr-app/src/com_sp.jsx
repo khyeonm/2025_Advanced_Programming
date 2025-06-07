@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
 import {
   Card,
@@ -31,7 +32,7 @@ const ComSp = ({ onSpecTabClick }) => {
   const [companyOptions, setCompanyOptions] = useState([]);
   const [positionOptions, setPositionOptions] = useState([]);
   const [rawOptions, setRawOptions] = useState([]);
-  const [activeTab, setActiveTab] = useState("");
+  const [activeTab, setActiveTab] = useState("채용공고 검색");
   const [jobPostingResults, setJobPostingResults] = useState([]);
   const [companySearchTerm, setCompanySearchTerm] = useState(""); // 회사 검색어
 
@@ -133,6 +134,23 @@ const ComSp = ({ onSpecTabClick }) => {
   // --- 렌더링 ---
   return (
     <Container className="mb-5">
+      <div style={{
+        position: "absolute",
+        top: 24,
+        left: 24,
+        display: "flex",
+        alignItems: "center",
+        zIndex: 10
+      }}>
+        <Button
+          variant="outline-dark"
+          style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 500 }}
+          onClick={() => { window.location.href = "http://localhost:3001"; }}
+        >
+          <FaArrowLeft style={{ fontSize: 18 }} />
+          메인으로
+        </Button>
+      </div>
       {/* 상단 중앙 제목 */}
       <div className="text-center my-5">
         <h1 className="display-4 fw-bold mb-2" style={{ fontWeight: 700 }}>SpecTrackr</h1>

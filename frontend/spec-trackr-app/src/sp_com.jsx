@@ -147,6 +147,23 @@ const SpCom = ({ onCompanyTabClick }) => {
   // --- 렌더링 ---
   return (
     <Container className="mb-5">
+      <div style={{
+        position: "absolute",
+        top: 24,
+        left: 24,
+        display: "flex",
+        alignItems: "center",
+        zIndex: 10
+      }}>
+        <Button
+          variant="outline-dark"
+          style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 500 }}
+          onClick={() => { window.location.href = "http://localhost:3001"; }}
+        >
+          <FaArrowLeft style={{ fontSize: 18 }} />
+          메인으로
+        </Button>
+      </div>
       {/* 상단 중앙 제목 */}
       <div className="text-center my-5">
         <h1 className="display-4 fw-bold mb-2" style={{ fontWeight: 700 }}>SpecTrackr</h1>
@@ -158,7 +175,7 @@ const SpCom = ({ onCompanyTabClick }) => {
       {/* 버튼: 100% 가로, 반반, 검정/흰색 */}
       <Row className="mb-4" style={{ marginLeft: 0, marginRight: 0 }}>
         <Col xs={6} className="p-0">
-          <Button
+          {/* <Button
             className="w-100 py-3 rounded-0 rounded-start"
             variant={activeTab === "채용공고 검색" ? "dark" : "outline-dark"}
             onClick={() => {
@@ -166,6 +183,17 @@ const SpCom = ({ onCompanyTabClick }) => {
               onCompanyTabClick && onCompanyTabClick();
             }}
             style={{ fontSize: "1.2rem", fontWeight: 500, borderRight: 0 }}
+          >
+            채용공고 검색
+          </Button> */}
+          <Button
+            className="w-100 py-3 rounded-0 rounded-start"
+            variant={activeTab === "채용공고 검색" ? "dark" : "outline-dark"}
+            onClick={() => {
+              setActiveTab("채용공고 검색");
+              if (onCompanyTabClick) onCompanyTabClick();
+            }}
+            style={{ fontSize: "1.2rem", fontWeight: 500 }}
           >
             채용공고 검색
           </Button>
