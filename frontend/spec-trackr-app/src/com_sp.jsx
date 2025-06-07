@@ -132,7 +132,7 @@ const ComSp = ({ onSpecTabClick }) => {
 
   // --- 렌더링 ---
   return (
-    <Container>
+    <Container className="mb-5">
       {/* 상단 중앙 제목 */}
       <div className="text-center my-5">
         <h1 className="display-4 fw-bold mb-2" style={{ fontWeight: 700 }}>SpecTrackr</h1>
@@ -264,67 +264,89 @@ const ComSp = ({ onSpecTabClick }) => {
                           posting.image !== "null" &&
                           posting.image !== null &&
                           posting.image.trim() !== "";
+
                         return (
                           <Card key={index}>
                             <Card.Body>
-                              <div className="d-flex justify-content-between align-items-start mb-3">
-                                <div>
-                                  <h5 className="fw-bold">{selectedCompany}</h5>
-                                  <Badge bg="secondary" className="mb-2">{selectedPosition}</Badge>
+                              {isValidImage ? (
+                                // 이미지가 있을 때: 이미지만 보여줌
+                                <div className="mb-4 text-center">
+                                  <a
+                                    href={posting.image}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{ display: "block" }}
+                                  >
+                                    <img
+                                      src={posting.image}
+                                      alt="채용 이미지"
+                                      className="img-fluid rounded"
+                                      style={{
+                                        width: "80%",
+                                        height: "auto",
+                                        objectFit: "contain",
+                                        display: "block",
+                                        marginLeft: "auto",
+                                        marginRight: "auto",
+                                        cursor: "pointer"
+                                      }}
+                                      onError={e => {
+                                        e.target.onerror = null;
+                                        e.target.style.display = "none";
+                                      }}
+                                    />
+                                  </a>
                                 </div>
-                              </div>
-                              <div className="row g-3 mb-3">
-                                <div className="col-md-6">
-                                  <FaMapMarkerAlt className="me-2" />
-                                  {posting.location}
-                                </div>
-                                <div className="col-md-6">
-                                  <FaGraduationCap className="me-2" />
-                                  {posting.education_level}
-                                </div>
-                                <div className="col-md-6">
-                                  <FaClock className="me-2" />
-                                  {posting.experience}
-                                </div>
-                              </div>
-                              {isValidImage && (
-                                <div className="mb-4">
-                                  <img
-                                    src={posting.image}
-                                    alt="채용 이미지"
-                                    className="img-fluid rounded"
-                                    onError={(e) => {
-                                      e.target.onerror = null;
-                                      e.target.style.display = "none";
-                                    }}
-                                  />
-                                </div>
+                              ) : (
+                                // 이미지가 없을 때: 텍스트 정보 전체 제공
+                                <>
+                                  <div className="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                      <h5 className="fw-bold">{selectedCompany}</h5>
+                                      <Badge bg="secondary" className="mb-2">{selectedPosition}</Badge>
+                                    </div>
+                                  </div>
+                                  <div className="row g-3 mb-3">
+                                    <div className="col-md-6">
+                                      <FaMapMarkerAlt className="me-2" />
+                                      {posting.location}
+                                    </div>
+                                    <div className="col-md-6">
+                                      <FaGraduationCap className="me-2" />
+                                      {posting.education_level}
+                                    </div>
+                                    <div className="col-md-6">
+                                      <FaClock className="me-2" />
+                                      {posting.experience}
+                                    </div>
+                                  </div>
+                                  <div className="mb-3">
+                                    <div className="d-flex align-items-center mb-2">
+                                      <FaAward className="me-2 text-muted" />
+                                      <h6 className="m-0 fw-bold">요구사항</h6>
+                                    </div>
+                                    <ul className="list-unstyled">
+                                      {posting.etc_requirements
+                                        ?.split(/[•■ㅁㅇㆍ·*＞-]\s*/)
+                                        .filter(item => item.trim() !== "")
+                                        .map((req, idx) => (
+                                          <li key={idx} className="mb-1">
+                                            • {req.trim()}
+                                          </li>
+                                        ))}
+                                    </ul>
+                                  </div>
+                                  <div>
+                                    <div className="d-flex align-items-center mb-2">
+                                      <FaStar className="me-2 text-muted" />
+                                      <h6 className="m-0 fw-bold">우대사항</h6>
+                                    </div>
+                                    <p className="m-0">
+                                      {posting.preferred_qualification || "우대사항이 없습니다"}
+                                    </p>
+                                  </div>
+                                </>
                               )}
-                              <div className="mb-3">
-                                <div className="d-flex align-items-center mb-2">
-                                  <FaAward className="me-2 text-muted" />
-                                  <h6 className="m-0 fw-bold">요구사항</h6>
-                                </div>
-                                <ul className="list-unstyled">
-                                  {posting.etc_requirements
-                                    ?.split(/[•■ㅁㅇㆍ·*＞-]\s*/)
-                                    .filter(item => item.trim() !== "")
-                                    .map((req, idx) => (
-                                      <li key={idx} className="mb-1">
-                                        • {req.trim()}
-                                      </li>
-                                    ))}
-                                </ul>
-                              </div>
-                              <div>
-                                <div className="d-flex align-items-center mb-2">
-                                  <FaStar className="me-2 text-muted" />
-                                  <h6 className="m-0 fw-bold">우대사항</h6>
-                                </div>
-                                <p className="m-0">
-                                  {posting.preferred_qualification || "우대사항이 없습니다"}
-                                </p>
-                              </div>
                             </Card.Body>
                           </Card>
                         );
