@@ -2,21 +2,20 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./total.css";
 
-// 직업 분류 목록
 const jobCategories = ["생산/제조", "연구개발/설계", "IT/인터넷"];
 
-// 상태 관리
 const ComSp = ({ onSpecTabClick }) => {
   const [selectedJobCategory, setSelectedJobCategory] = useState("");
   const [selectedCompany, setSelectedCompany] = useState("");
   const [selectedPosition, setSelectedPosition] = useState("");
   const [companyOptions, setCompanyOptions] = useState([]);
   const [positionOptions, setPositionOptions] = useState([]);
-  const [rawOptions, setRawOptions] = useState([]); // 전체 데이터 저장
+  const [rawOptions, setRawOptions] = useState([]);
   const [activeTab, setActiveTab] = useState("채용 공고");
   const [jobPostingResults, setJobPostingResults] = useState([]);
+  const [companySearchTerm, setCompanySearchTerm] = useState(""); // 회사 검색어
   
-  // 직업 카테고리 선택 시 회사, 직무 정보 가져오기
+
   useEffect(() => {
     if (selectedJobCategory) {
       axios.post(`${process.env.REACT_APP_API_URL}/get-company-name-and-detail-job`, {
@@ -42,7 +41,6 @@ const ComSp = ({ onSpecTabClick }) => {
     }
   }, [selectedJobCategory]);
 
-  // 회사 선택 시 해당 회사의 직무만 필터링
   useEffect(() => {
     if (selectedCompany) {
       const filteredPositions = rawOptions.filter(item => item.company_name === selectedCompany);
@@ -56,7 +54,6 @@ const ComSp = ({ onSpecTabClick }) => {
     }
   }, [selectedCompany, rawOptions, selectedJobCategory]);
 
-  // 직무 선택 시 해당 직무를 가진 회사만 필터링
   useEffect(() => {
     if (selectedPosition) {
       const filteredCompanies = rawOptions.filter(item => item.detail_job === selectedPosition);
@@ -74,7 +71,6 @@ const ComSp = ({ onSpecTabClick }) => {
     }
   }, [selectedPosition, rawOptions, selectedJobCategory]);
 
-  // 세 가지 조건이 모두 선택되면 채용 공고 API 호출
   useEffect(() => {
     if (selectedJobCategory && selectedCompany && selectedPosition) {
       axios.post(`${process.env.REACT_APP_API_URL}/get-job-posting`, {
@@ -97,14 +93,6 @@ const ComSp = ({ onSpecTabClick }) => {
     }
   }, [selectedJobCategory, selectedCompany, selectedPosition]);
 
-  // 회사 드롭다운 클릭 시 필터 초기화
-  const handleCompanyClick = () => {
-    if (selectedJobCategory) {
-      setCompanyOptions([...new Set(rawOptions.map(item => item.company_name))].sort());
-    }
-  };
-
-  // 직무 드롭다운 클릭 시 선택된 회사에 맞는 직무만 필터링
   const handlePositionClick = () => {
     if (selectedCompany) {
       const filtered = rawOptions.filter(item => item.company_name === selectedCompany);
@@ -112,11 +100,15 @@ const ComSp = ({ onSpecTabClick }) => {
     }
   };
 
+  // 검색 필터링된 회사 목록
+  const filteredCompanyOptions = companyOptions.filter(company =>
+    company.toLowerCase().includes(companySearchTerm.toLowerCase())
+  );
+
   return (
     <div className="container">
       <h1 className="title">SpecTrackr</h1>
 
-      {/* 탭 버튼 */}
       <div className="button-group">
         <button
           className="btn selected"
@@ -136,7 +128,6 @@ const ComSp = ({ onSpecTabClick }) => {
       </div>
 
       <div className="outer-box">
-        {/* 직업 선택 */}
         <div className="section">
           <label className="select-label">직업 분류를 선택하세요</label>
           <div className="flex flex-wrap gap-2">
@@ -152,18 +143,23 @@ const ComSp = ({ onSpecTabClick }) => {
           </div>
         </div>
 
-        {/* 회사 및 직무 선택 드롭다운 */}
         <div className="select-row">
           <div className="select-col">
             <label className="select-label">회사를 선택하세요</label>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="회사 검색..."
+              value={companySearchTerm}
+              onChange={(e) => setCompanySearchTerm(e.target.value)}
+            />
             <select
               className="select"
               value={selectedCompany}
-              onMouseDown={handleCompanyClick}
               onChange={(e) => setSelectedCompany(e.target.value)}
             >
               <option value="">회사를 선택하세요</option>
-              {companyOptions.map((company, index) => (
+              {filteredCompanyOptions.map((company, index) => (
                 <option key={index} value={company}>{company}</option>
               ))}
             </select>
@@ -184,7 +180,6 @@ const ComSp = ({ onSpecTabClick }) => {
           </div>
         </div>
 
-        {/* 검색 결과 영역*/}
         <div className="section">
           <label className="select-label">검색 결과</label>
           <div className="tab-group">
@@ -210,7 +205,6 @@ const ComSp = ({ onSpecTabClick }) => {
                       return (
                         <li key={index} className="posting-item">
                           {isValidImage ? (
-                            // 이미지가 있을 때: 이미지만 보여주기
                             <div className="image-container">
                               <img
                                 src={posting.image}
@@ -223,19 +217,17 @@ const ComSp = ({ onSpecTabClick }) => {
                               />
                             </div>
                           ) : (
-                            // 이미지가 없을 때: 텍스트 정보만 보여주기
                             <div className="posting-info">
                               <span><strong>회사:</strong> {selectedCompany}</span><br />
                               <span><strong>직무:</strong> {selectedPosition}</span><br />
                               <span><strong>근무지:</strong> {posting.location}</span><br />
                               <span><strong>학력:</strong> {posting.education_level}</span><br />
                               <span><strong>경력:</strong> {posting.experience}</span><br />
-                              {/* <span><strong>요구사항:</strong> {posting.etc_requirements || "없음"}</span><br /> */}
                               <span>
                                 <strong>요구사항:</strong><br />
                                 {posting.etc_requirements
                                   ? posting.etc_requirements
-                                      .split(/[•■ㅁㅇㆍ·*＞-]\s*/) // "•" 기호를 기준으로 분할하며 공백 제거
+                                      .split(/[•■ㅁㅇㆍ·*＞-]\s*/)
                                       .filter(item => item.trim() !== "")
                                       .map((item, index) => (
                                         <React.Fragment key={index}>
@@ -245,7 +237,6 @@ const ComSp = ({ onSpecTabClick }) => {
                                       ))
                                   : "없음"}
                               </span>
-
                               <span><strong>우대사항:</strong> {posting.preferred_qualification || "없음"}</span>
                             </div>
                           )}

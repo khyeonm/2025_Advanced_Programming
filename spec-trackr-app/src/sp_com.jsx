@@ -16,6 +16,17 @@ const SpCom = ({ onCompanyTabClick }) => {
   const [currentApplicantIndex, setCurrentApplicantIndex] = useState(0);
   const [recommendedApplicants, setRecommendedApplicants] = useState([]);
   const [carouselIndex, setCarouselIndex] = useState(0); // ✅ carousel 상태 추가
+  const [companySearch, setCompanySearch] = useState("");
+  const [schoolSearch, setSchoolSearch] = useState("");
+
+  const filteredCompanies = companyOptions.filter(company =>
+  company.toLowerCase().includes(companySearch.toLowerCase())
+  );
+
+  const filteredSchools = allSchools.filter(school =>
+    school.toLowerCase().includes(schoolSearch.toLowerCase())
+  );
+
 
   const initialSpec = {
     school: "",
@@ -167,13 +178,20 @@ const SpCom = ({ onCompanyTabClick }) => {
         <div className="select-row">
           <div className="select-col">
             <label className="select-label">회사를 선택하세요</label>
+            <input
+              type="text"
+              placeholder="회사 검색"
+              className="search-input"
+              value={companySearch}
+              onChange={(e) => setCompanySearch(e.target.value)}
+            />
             <select
               className="select"
               value={selectedCompany}
               onChange={(e) => setSelectedCompany(e.target.value)}
             >
               <option value="">회사를 선택하세요</option>
-              {companyOptions.map((company, idx) => (
+              {filteredCompanies.map((company, idx) => (
                 <option key={idx} value={company}>
                   {company}
                 </option>
@@ -202,13 +220,20 @@ const SpCom = ({ onCompanyTabClick }) => {
           <div className="spec-input-box">
             <div className="spec-btn">
               school
+              <input
+                type="text"
+                placeholder="학교 검색"
+                className="search-input"
+                value={schoolSearch}
+                onChange={(e) => setSchoolSearch(e.target.value)}
+              />
               <select
                 className="spec-input"
                 value={mySpec.school}
                 onChange={(e) => handleInput("school", e.target.value)}
               >
                 <option value="">학교 선택</option>
-                {allSchools.map((school, idx) => (
+                {filteredSchools.map((school, idx) => (
                   <option key={idx} value={school}>
                     {school}
                   </option>
