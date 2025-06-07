@@ -51,7 +51,7 @@ def get_db():
     finally:
         db.close()
 
-
+# 1. /get-company-name-and-detail-job
 @app.post("/get-company-name-and-detail-job", response_model=list[schemas.CompanyAndDetailJob], tags=['회사 기준 검색'])
 @safe_handler
 def get_company_name_and_detail_job(req: schemas.JobCategoryRequest, db: Session = Depends(get_db)):
@@ -79,7 +79,6 @@ def get_company_name_by_detail_job(req: schemas.DetailJobRequest, db: Session = 
 
 @app.post("/get-job-posting", response_model=list[schemas.JobPosting], tags=['회사 기준 검색'])
 @safe_handler
-
 def get_job_posting(req: schemas.JobPostingRequest, db: Session = Depends(get_db)):
     req = RequestFactory.create(schemas.JobPostingRequest, req.dict())
 
@@ -120,7 +119,7 @@ def get_applicants_by_company_detail_job(req: schemas.ApplicantSearchByCompanyDe
         Applicant.detail_job == req.detail_job
     ).all()
 
-@app.post("/get-companiy-by-detail-job", response_model=list[schemas.CompanyList], tags=['스펙 기준 검색'])
+@app.post("/get-company-by-detail-job", response_model=list[schemas.CompanyList], tags=['스펙 기준 검색'])
 @safe_handler
 def get_companies_by_detail_job(req: schemas.DetailJobOnlyRequest, db: Session = Depends(get_db)):
     req = RequestFactory.create(schemas.DetailJobOnlyRequest, req.dict())
