@@ -1,12 +1,24 @@
 services:
-  frontend:
-    build:
-      context: ./frontend/spec-trackr-app  # Dockerfile이 위치한 경로
-      dockerfile: frontend.dockerfile  # 사용할 Dockerfile 이름
-
-    container_name: react_frontend  # 컨테이너 이름 지정
-
+  spec-trackr:
+    build: 
+      context: ./frontend/spec-trackr-app
+      dockerfile: sta.dockerfile
     ports:
-      - "3002:80"  # 로컬 머신의 3002 포트를 컨테이너의 80번 포트에 연결
+      - "3001:3001"  # 고정 포트 매핑
+    networks:
+      - spec-net
 
-    restart: unless-stopped  # 컨테이너가 중지되었을 때 수동으로 중지하지 않은 경우 자동 재시작
+  spectrackr-main:
+    build: 
+      context: ./frontend/spectrackr-main
+      dockerfile: main.dockerfile
+    ports:
+      - "3003:3003"  # 고정 포트 매핑
+    networks:
+      - spec-net
+    depends_on:
+      - spec-trackr
+
+networks:
+  spec-net:
+    driver: bridge
