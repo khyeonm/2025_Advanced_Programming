@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./total.css";
+import TableauEmbed from "./TableauEmbed";
 
 const SpCom = ({ onCompanyTabClick }) => {
-  const [activeTab, setActiveTab] = useState("스펙 기준 검색");
+  const [activeTab, setActiveTab] = useState("스펙 검색");
   const [selectedCompany, setSelectedCompany] = useState("");
   const [selectedPosition, setSelectedPosition] = useState("");
   const [companyOptions, setCompanyOptions] = useState([]);
@@ -158,19 +159,19 @@ const SpCom = ({ onCompanyTabClick }) => {
 
       <div className="button-group">
         <button
-          className={`btn ${activeTab === "회사 기준 검색" ? "selected" : ""}`}
+          className={`btn ${activeTab === "채용공고 검색" ? "selected" : ""}`}
           onClick={() => {
-            setActiveTab("회사 기준 검색");
+            setActiveTab("채용공고 검색");
             onCompanyTabClick && onCompanyTabClick();
           }}
         >
-          회사 기준 검색
+          채용공고고 검색
         </button>
         <button
-          className={`btn ${activeTab === "스펙 기준 검색" ? "selected" : ""}`}
-          onClick={() => setActiveTab("스펙 기준 검색")}
+          className={`btn ${activeTab === "스펙 검색" ? "selected" : ""}`}
+          onClick={() => setActiveTab("스펙 검색")}
         >
-          스펙 기준 검색
+          스펙 검색
         </button>
       </div>
 
@@ -352,6 +353,14 @@ const SpCom = ({ onCompanyTabClick }) => {
             >
               &#8594;
             </button>
+          </div>
+        </div>
+
+        {/* ✅ 직무별 스펙 Tableau 시각화 영역 */}
+        <div className="tableau-section">
+          <label className="company-label">직무별 스펙</label>
+          <div className="tableau-box">
+            <TableauEmbed />
           </div>
         </div>
       </div>

@@ -347,4 +347,14 @@
   .spec-column {
     width: 100%;
   }
+
+  .tableau-section {
+    margin-top: 40px;
+  }
+
+  .tableau-box {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
 }

@@ -112,18 +112,18 @@ const ComSp = ({ onSpecTabClick }) => {
       <div className="button-group">
         <button
           className="btn selected"
-          onClick={() => setActiveTab("회사 기준 검색")}
+          onClick={() => setActiveTab("채용공고 검색")}
         >
-          회사 기준 검색
+          채용공고 검색
         </button>
         <button
-          className={`btn ${activeTab === "스펙 기준 검색" ? "selected" : ""}`}
+          className={`btn ${activeTab === "스펙 검색" ? "selected" : ""}`}
           onClick={() => {
-            setActiveTab("스펙 기준 검색");
+            setActiveTab("스펙 검색");
             if (onSpecTabClick) onSpecTabClick();
           }}
         >
-          스펙 기준 검색
+          스펙 검색
         </button>
       </div>
 
