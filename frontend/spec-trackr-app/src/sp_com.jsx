@@ -144,7 +144,6 @@ const SpCom = ({ onCompanyTabClick }) => {
       }
     : initialSpec;
 
-  // --- 렌더링 ---
   return (
     <Container className="mb-5">
       <div style={{
@@ -158,7 +157,7 @@ const SpCom = ({ onCompanyTabClick }) => {
         <Button
           variant="outline-dark"
           style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 500 }}
-          onClick={() => { window.location.href = "http://localhost:3001"; }}
+          onClick={() => { window.location.href = "http://localhost:3003"; }}
         >
           <FaArrowLeft style={{ fontSize: 18 }} />
           메인으로
