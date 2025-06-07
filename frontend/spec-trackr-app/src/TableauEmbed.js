@@ -6,7 +6,7 @@ const TableauEmbed = () => {
   return (
   <div style={{ width: '100%', maxWidth: '1400px', margin: '0 auto' }}>
     <iframe
-      src="https://public.tableau.com/views/_17492253239990/1?:embed=yes&:showVizHome=no"
+      src="https://public.tableau.com/views/_17492732225060/1?:language=ko-KR&:display_count=n&:origin=viz_share_link"
       style={{ width: '100%', height: '800px', border: 'none' }}
       allowFullScreen
       title="Tableau 워드클라우드"

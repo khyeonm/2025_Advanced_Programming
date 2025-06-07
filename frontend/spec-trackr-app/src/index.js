@@ -5,6 +5,8 @@ import App from './App';
 import ComSp from "./com_sp";
 import "./index.css";
 import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
