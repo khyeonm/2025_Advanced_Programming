@@ -118,6 +118,8 @@ https://2025advancedprogramming-production.up.railway.app/docs
     }
   ]
 ```
+
+
 ## 스펙 기준 검색
 #### 5. `/get-applicants-by-company-detail-job`
 - Method: POST
@@ -151,7 +153,7 @@ https://2025advancedprogramming-production.up.railway.app/docs
   ]
 ```
 
----
+
 
 #### 6. `/get-company-by-detail-job`
 - Method: POST
@@ -175,7 +177,7 @@ https://2025advancedprogramming-production.up.railway.app/docs
   ]
 ```
 
----
+
 #### 7. `/get-detail-job-by-company`
 - Method: POST
 - 설명: 특정 회사에 지원한 직무 목록 조회
@@ -194,7 +196,7 @@ https://2025advancedprogramming-production.up.railway.app/docs
   ]
 ```
 
----
+
 #### 8. `/get-all-universities`
 - Method: GET
 - 설명: 드롭다운을 위해 모든 지원자의 대학교 목록을 반환합니다.
@@ -250,6 +252,7 @@ https://2025advancedprogramming-production.up.railway.app/docs
 | 오류 코드                | 설명                                   |
 |-----------------------|--------------------------------------|
 | `200` | OK: 요청 성공                |
+| `422` | Validation Error: Pydantic 유효성 검사 실패                |
 | `400`     |  Bad Request: 잘못된 요청 데이터                   |
 | `404`    | Not Found: 데이터 없음                 |
 | `500`      | Internal Server Error: 서버 에러             |
