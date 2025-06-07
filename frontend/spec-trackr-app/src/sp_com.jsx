@@ -11,7 +11,6 @@ import {
 } from "react-bootstrap";
 import { FaSearch, FaBuilding, FaUserTie, FaUser, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import TableauEmbed from "./TableauEmbed";
-import "./total.css";
 
 const initialSpec = {
   school: "",
@@ -147,7 +146,7 @@ const SpCom = ({ onCompanyTabClick }) => {
 
   // --- 렌더링 ---
   return (
-    <Container>
+    <Container className="mb-5">
       {/* 상단 중앙 제목 */}
       <div className="text-center my-5">
         <h1 className="display-4 fw-bold mb-2" style={{ fontWeight: 700 }}>SpecTrackr</h1>
