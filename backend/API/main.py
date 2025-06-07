@@ -6,6 +6,13 @@ import schemas
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from functools import wraps
+import logging
+
+# --- logger 설정 ---
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
 
 # --- Factory Pattern ---
 class RequestFactory:
@@ -28,8 +35,15 @@ def safe_handler(func):
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
+        except ValueError as ve:
+            logger.warning(f"400 Bad Request: {ve}")
+            raise HTTPException(status_code=400, detail=str(ve))
+        except KeyError as ke:
+            logger.warning(f"404 Not Found: {ke}")
+            raise HTTPException(status_code=404, detail=f"Not Found: {ke}")
         except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
+            logger.error(f"500 Internal Server Error: {e}", exc_info=True)
+            raise HTTPException(status_code=500, detail="Internal Server Error")
     return wrapper
 
 # --- FastAPI ---
