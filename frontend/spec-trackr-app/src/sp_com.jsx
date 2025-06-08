@@ -171,20 +171,8 @@ const SpCom = ({ onCompanyTabClick }) => {
         </div>
       </div>
 
-      {/* 버튼: 100% 가로, 반반, 검정/흰색 */}
       <Row className="mb-4" style={{ marginLeft: 0, marginRight: 0 }}>
         <Col xs={6} className="p-0">
-          {/* <Button
-            className="w-100 py-3 rounded-0 rounded-start"
-            variant={activeTab === "채용공고 검색" ? "dark" : "outline-dark"}
-            onClick={() => {
-              setActiveTab("채용공고 검색");
-              onCompanyTabClick && onCompanyTabClick();
-            }}
-            style={{ fontSize: "1.2rem", fontWeight: 500, borderRight: 0 }}
-          >
-            채용공고 검색
-          </Button> */}
           <Button
             className="w-100 py-3 rounded-0 rounded-start"
             variant={activeTab === "채용공고 검색" ? "dark" : "outline-dark"}
