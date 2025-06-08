@@ -6,7 +6,7 @@ services:
     ports:
       - "3001:3001"  # 고정 포트 매핑
     networks:
-      - spec-net
+      - spec-net  # spec-net 네트워크에 연결
 
   spectrackr-main:
     build: 
@@ -15,10 +15,11 @@ services:
     ports:
       - "3003:3003"  # 고정 포트 매핑
     networks:
-      - spec-net
+      - spec-net  # spec-net 네트워크에 연결
     depends_on:
-      - spec-trackr
-
+      - spec-trackr  # spec-trackr 서비스가 먼저 시작되어야 함
 networks:
   spec-net:
     driver: bridge
+
+    
