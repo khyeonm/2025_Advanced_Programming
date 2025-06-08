@@ -77,7 +77,7 @@ http://localhost:3003
 
 | 역할          | 이름 |  기술 스택 배지                         |                           
 |---------------|------|---------------------------------------------------------------------------------------------------------------|
-| **백엔드** | [서호영]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)  |
+| **백엔드** | [서호영]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white) ![Tableau](https://img.shields.io/badge/Tableau-E97627?style=for-the-badge&logo=tableau&logoColor=white) ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) |
 | **프론트엔드** | [김예준](https://www.linkedin.com/in/ye-jun-kim-yerdy) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)  |
 | **백엔드** | [이해인]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)   |
 | **프론트엔드** | [김현민]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)   |
