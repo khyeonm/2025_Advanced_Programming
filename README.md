@@ -8,6 +8,12 @@
 <a href="https://github.com/khyeonm/2025_Advanced_Programming/pulls"><img src="https://img.shields.io/github/issues-pr/khyeonm/2025_Advanced_Programming" alt="Pull Requests Badge"/></a>
 <a href="https://github.com/khyeonm/2025_Advanced_Programming/discussions"><img src="https://img.shields.io/github/discussions/khyeonm/2025_Advanced_Programming" alt="Discussions Badge"/></a>
 <a href="https://github.com/khyeonm/2025_Advanced_Programming/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/khyeonm/2025_Advanced_Programming?color=2b9348"></a>
+<br>
+<img src="https://img.shields.io/badge/Backend-FastAPI%20%26%20Swagger-green" alt="Backend Badge"/>
+<img src="https://img.shields.io/badge/Frontend-React%20%26%20Tableau-blue" alt="Frontend Badge"/>
+<img src="https://img.shields.io/badge/Database-PostgreSQL-lightgrey" alt="DB Badge"/>
+<img src="https://img.shields.io/badge/DevOps-GitHub%20%26%20Docker-blueviolet" alt="DevOps Badge"/>
+<img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License"/>
 </div>
 <br>
 
@@ -53,20 +59,25 @@ _"폭넓은 가능성 속에서, 각자의 길을 찾고 준비할 수 있도록
 
 ## 🚀 사용자 가이드
 ```bash
+# docker 사용가능 환경에서 실행
 # 2025_Advanced_Programming 디렉토리에서 아래 명령어 실행
 docker compose up
 # 브라우저에서 아래 URL 접속
-http://localhost:3002
+http://localhost:3003
 ```
 ### 💡 문제 해결
-브라우저에 접속 시 화면이 뜨지 않는 경우
-- VSCode의 Ports에 3002를 추가한 후 URL 재접속
+- 브라우저에 접속 시 화면이 뜨지 않는 경우
+    - VSCode의 Ports에 3001를 추가한 후 URL 재접속
+
+- 이미 사용중인 포트번호인 경우
+    - ./frontend/spec-trackr-app/sp_com.jsx와 com_sp.jsx, ./frontend/spectrackr-main/main.dockerfile에서 3003을 검색하여 다른 포트 번호로 변경
+    - ./frontend/spectrackr-main/app/page.tsx 와 ./frontend/spec-trackr-app/sta.dockerfile에서 3001을 검색하여 다른 포트 번호로 변경
 
 ## 🧑 팀 소개 (Team)
 
 | 역할          | 이름 |  기술 스택 배지                         |                           
 |---------------|------|---------------------------------------------------------------------------------------------------------------|
-| **백엔드** | [서호영]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)  |
+| **백엔드** | [서호영]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white) ![Tableau](https://img.shields.io/badge/Tableau-E97627?style=for-the-badge&logo=tableau&logoColor=white) ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) |
 | **프론트엔드** | [김예준](https://www.linkedin.com/in/ye-jun-kim-yerdy) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)  |
 | **백엔드** | [이해인]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)   |
 | **프론트엔드** | [김현민]( ) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)   |
@@ -100,7 +111,7 @@ gantt
 | 2025/05/21 | - | - | -  |
 | 2025/05/28 | 3-5주차 | 김예준 | [25/05/28](https://pusanackr-my.sharepoint.com/:p:/g/personal/haein1012_pusan_ac_kr/EeO-PUyPaddDrsQ9LwEOr8cBUkAVRRCymfRxqk8n6lNB0Q?e=IcFPFO) |
 | 2025/06/04 | 6주차 | 이해인 | [25/06/04](https://pusanackr-my.sharepoint.com/:p:/g/personal/haein1012_pusan_ac_kr/Ebd1e-u86-hMo0Rop_Lx58sBEUq8yqvExVrlr6g5aHqFhQ?e=wL39gb) |
-| 2025/06/11 |- |  - | -|
+| 2025/06/11 | 7주차 | 김예준 | [25/06/11](https://pusanackr-my.sharepoint.com/:p:/g/personal/haein1012_pusan_ac_kr/EdkOcZ0_D-tIvy0LHfwmfDQBFU0I2JkaxQRa2o8Jm3kS9w?rtime=UAPnyxum3Ug) |
 
 
 <h2>Contributors 😃</h2>
