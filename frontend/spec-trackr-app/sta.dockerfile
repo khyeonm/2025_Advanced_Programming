@@ -2,6 +2,7 @@ FROM node:18-alpine
 
 # 작업 디렉토리를 /app으로 설정
 WORKDIR /app
+COPY .env.production .env
 
 # package.json과 package-lock.json 파일을 컨테이너로 복사
 COPY package*.json ./
