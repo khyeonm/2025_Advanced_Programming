@@ -1,5 +1,6 @@
 FROM node:18-alpine
 WORKDIR /app
+COPY .env.production .env
 COPY package*.json ./
 RUN npm install
 COPY . .
