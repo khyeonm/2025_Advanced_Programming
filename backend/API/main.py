@@ -15,7 +15,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-
 # --- Factory Pattern ---
 class RequestFactory:
     @staticmethod
@@ -96,33 +95,21 @@ def get_company_name_by_detail_job(req: schemas.DetailJobRequest, db: Session = 
 def get_job_posting(req: schemas.JobPostingRequest, db: Session = Depends(get_db)):
     req = RequestFactory.create(schemas.JobPostingRequest, req.dict())
 
-    results = db.query(
-        RecruitQualification.company_type,
-        RecruitQualification.main_job,
-        RecruitQualification.location,
-        RecruitQualification.education_level,
-        RecruitQualification.major,
-        RecruitQualification.experience,
-        RecruitQualification.language_requirement,
-        RecruitQualification.military_requirement,
-        RecruitQualification.overseas_available,
-        RecruitQualification.etc_requirements,
-        RecruitQualification.process,
-        RecruitQualification.image
-    ).filter(
-        RecruitQualification.job_category == req.job_category,
-        RecruitQualification.company_name == req.company_name,
-        RecruitQualification.detail_job == req.detail_job
-    ).distinct().all()
-
-    keys = [
-
+    fields = [
         "company_type", "main_job", "location", "education_level", "major", "experience",
         "language_requirement", "military_requirement", "overseas_available",
         "etc_requirements", "process", "image"
     ]
+    get_attr = lambda field: getattr(RecruitQualification, field)
 
-    return ResultAdapter.to_dict_list(keys, results)
+    results = db.query(*(get_attr(f) for f in fields))\
+                .filter(
+                    RecruitQualification.job_category == req.job_category,
+                    RecruitQualification.company_name == req.company_name,
+                    RecruitQualification.detail_job == req.detail_job
+                ).distinct().all()
+
+    return ResultAdapter.to_dict_list(fields, results)
 
 # 회사와 직무를 입력받아 합격자들을 받아옴
 @app.post("/get-applicants-by-company-detail-job", response_model=list[schemas.ApplicantSchema], tags=["스펙 기준 검색"])
@@ -154,23 +141,14 @@ def get_detail_jobs_by_company(req: schemas.CompanyOnlyRequest, db: Session = De
         query = query.filter(Applicant.company == req.company)
     return [{"detail_job": r[0]} for r in query.distinct().all() if r[0] is not None]
 
-# @app.get("/get-all-universities", response_model=list[str], tags=["스펙 기준 검색"])
-# @safe_handler
-# def get_all_universities(db: Session = Depends(get_db)):
-#     return [r[0] for r in db.query(Applicant.university)
-#                        .filter(Applicant.university.isnot(None))
-#                        .filter(Applicant.university != "")
-#                        .distinct().all()]
-
 # 모든 대학 드롭다운
 @app.get("/get-all-universities", response_model=list[str], tags=["스펙 기준 검색"])
 @safe_handler
 def get_all_universities(db: Session = Depends(get_db)):
-    extract = lambda row: row[0]
-    return list(map(extract, db.query(Applicant.university)
-                               .filter(Applicant.university.isnot(None))
-                               .filter(Applicant.university != "")
-                               .distinct().all()))
+    return [r[0] for r in db.query(Applicant.university)
+                       .filter(Applicant.university.isnot(None))
+                       .filter(Applicant.university != "")
+                       .distinct().all()]
 
 # 학교를 입력받아 합격자들 드롭다운
 @app.post("/get-applicants-by-school", response_model=list[schemas.CompanyAndJob], tags=["스펙 기준 검색"])
