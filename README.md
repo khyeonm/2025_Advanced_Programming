@@ -61,7 +61,7 @@ _"폭넓은 가능성 속에서, 각자의 길을 찾고 준비할 수 있도록
 ```bash
 # docker 사용가능 환경에서 실행
 # 2025_Advanced_Programming 디렉토리에서 아래 명령어 실행
-docker compose up
+docker compose up --build
 # 브라우저에서 아래 URL 접속
 http://localhost:3003
 ```
