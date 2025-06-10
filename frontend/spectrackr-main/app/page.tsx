@@ -78,13 +78,17 @@ function HomePage() {
               transition={{ duration: 0.7 }}
               className="max-w-4xl mx-auto text-center"
             >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                의생명융합공학부 학생들의{" "}
-                <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              의생명융합공학부{" "}
+              <span className="block md:inline">
+                학생들의{" "}
+                <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent whitespace-nowrap">
                   진로 탐색
                 </span>
-                을 위한 플랫폼
-              </h2>
+              </span>{" "}
+              을 위한 플랫폼
+            </h2>
+
 
               <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 mb-8 max-w-3xl mx-auto">
                 다양한 분야로의 진출 가능성을 연결하고, 채용 정보와 직무별 필수 역량을 한눈에 볼 수 있도록 지원합니다.
