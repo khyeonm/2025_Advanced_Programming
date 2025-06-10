@@ -84,7 +84,7 @@ http://localhost:3003
 
 
 
-## 🚀 프로젝트 로드맵 (Project Roadmap)
+## 🚀 프로젝트 로드맵 (Project Roadmap) 
 ```mermaid
 gantt
     title 2025 고급 프로그래밍 프로젝트 여정
